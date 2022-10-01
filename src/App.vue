@@ -1,32 +1,82 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-view />
+
+    <div class="tab-bar">
+      <router-link tag="div" class="tab-bar-item" to="/">
+        <div class="item home"></div>
+        <span class="text">首页</span>
+      </router-link>
+      <router-link tag="div" class="tab-bar-item" to="/audio">
+        <div class="item audio"></div>
+        <span class="text">音频</span>
+      </router-link>
+      <router-link tag="div" class="tab-bar-item" to="/read">
+        <div class="item read"></div>
+        <span class="text">阅读</span>
+        </router-link>
+      <router-link tag="div" class="tab-bar-item" to="/user">
+        <div class="item user"></div>
+        <span class="text">我的</span>
+        </router-link>
+    </div>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="scss" scoped>
+.tab-bar {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 55px;
+  border-top: 1px solid #eee;
+  background-color: #fff;
+  .tab-bar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 13px;
+   
+    .item {
+      width: 25px;
+      height: 25.5px;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+    }
+    .home {
+      background-image: url(./assets/img/F8.png);
+    }
+    .audio {
+      background-image: url(./assets/img/b2.png);
+    }
+    .read {
+      background-image: url(./assets/img/cB.png);
+    }
+    .user {
+      background-image: url(./assets/img/uW.png);
+    }
+    &.router-link-exact-active {
+      .home {
+        background-image: url(./assets/img/v_.png);
+      }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+      .audio {
+        background-image: url(./assets/img/uM.png);
+      }
+      .read {
+        background-image: url(./assets/img/et.png);
+      }
+      .user {
+        background-image: url(./assets/img/_B.png);
+      }
+      .text {
+        color: #0091ff;
+      }
+    }
+  }
 }
 </style>
