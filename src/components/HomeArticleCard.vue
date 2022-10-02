@@ -15,7 +15,11 @@
     </div>
 
     <div class="item-bottom">
-      <span>{{ article_type }}</span>
+      <span
+        class="text"
+        :class="{ active: newsData.article_type != 'normal' }"
+        >{{ article_type }}</span
+      >
       <div class="icon">
         <span class="like">{{ newsData.like_times }} <i></i></span>
         <span class="comment">{{ newsData.comment_times }} <i></i></span>
@@ -77,15 +81,20 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    span {
+    .text {
       font-size: 13px;
       color: #888;
     }
+    .active {
+      color: rgb(23, 122, 244);
+    }
     .icon {
-        display: flex;
+      display: flex;
       span {
         display: flex;
         align-items: center;
+        font-size: 13px;
+        color: #888;
         i {
           display: inline-block;
           margin-left: 5px;
@@ -97,7 +106,6 @@ export default {
       }
 
       .like {
-       
         i {
           background-image: url(../assets/img/gQ.png);
         }
