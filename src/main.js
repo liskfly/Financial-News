@@ -12,7 +12,7 @@ Vue.use(VueAxiosPlugin, {
   },
   reqErrorFunc: error => Promise.reject(error),
   resHandleFunc: response => {
-    return response
+    return response.data
   },
   resErrorFunc: error => Promise.reject(error)
 })

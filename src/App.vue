@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view />
+     <keep-alive>
+      <router-view />
+</keep-alive>
+    
 
     <div class="tab-bar">
       <router-link tag="div" class="tab-bar-item" to="/">
@@ -24,6 +27,10 @@
 </template>
 
 <style lang="scss" scoped>
+.news{
+  // margin-bottom: 50px;
+  // overflow: auto;
+}
 .tab-bar {
   display: flex;
   position: fixed;
