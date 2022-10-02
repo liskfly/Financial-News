@@ -6,7 +6,7 @@
     </div>
     <div>
       <wd-swipe>
-        <wd-swipe-item v-for="item in banner" :key="item">
+        <wd-swipe-item v-for="item in banner" :key="item.title">
           <img :src="item.cover_url" class="swipe-img" />
         </wd-swipe-item>
       </wd-swipe>
@@ -40,6 +40,10 @@ export default {
     justify-content: space-between;
     font-weight: 900;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: white;
 
     span {
     }

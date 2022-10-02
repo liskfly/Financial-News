@@ -8,7 +8,6 @@
 import HomeHead from './HomeHead'
 
 export default {
-  name: 'HomeView',
     data() {
     return {
       banner: [],
@@ -25,9 +24,15 @@ export default {
       this.$axios
       .get("http://api2021.cbnweek.com/v4/banners?category=first")
       .then(({data}) => {
-        this.banner = data.data
+        this.banner = data
       })
     }
   }
 }
 </script>
+
+<style lang="scss">
+  .home {
+    overflow: visible;
+  }
+</style>
