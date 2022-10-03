@@ -4,9 +4,10 @@ import HomeView from '../views/HomeView/HomeView'
 import AudioView from '../views/AudioView/AudioView'
 import UserView from '../views/UserView/UserView'
 import ReadView from '../views/ReadView/ReadView'
-import AllView from '../views/ReadView/AllView/AllView'
-import MagazineView from '../views/ReadView/MagazineView/MagazineView'
-import BookletView from '../views/ReadView/BookletView/BookletView'
+
+import AllView from '../views/ReadView/AllView/AllView.vue'
+import MagazineView from '../views/ReadView/MagazineView/MagazineView.vue'
+import BookletView from '../views/ReadView/BookletView/BookletView.vue'
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,7 @@ const routes = [
     name: 'read',
     component: ReadView,
     children:[{
-      path: '/read',
+      path: '/read/',
       name: 'all',
       component: AllView,
     },{
@@ -34,7 +35,7 @@ const routes = [
       name: 'magazine',
       component: MagazineView,
     },{
-      path: 'Booklet',
+      path: '/read/Booklet',
       name: 'Booklet',
       component: BookletView,
     }]

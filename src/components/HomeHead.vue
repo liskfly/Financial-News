@@ -24,8 +24,6 @@ export default {
 <style lang="scss">
 .Head {
   .swipe-img {
-    width: 100vw;
-    height: 45vw;
     margin: 0 3vw;
     border-radius: 5px;
     width: 94vw;

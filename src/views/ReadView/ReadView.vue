@@ -3,21 +3,19 @@
     <div class="read-head">
       <img src="../../assets/img/3H.png">
       <div class="readType">
-        <router-link tag="div" class="tab-bar-item" to="/read">
-          <div class="item home"></div>
+        <router-link tag="div" class="tab-bar-item" to="/read/">
           <span class="text">全部</span>
         </router-link>
         <router-link tag="div" class="tab-bar-item" to="/read/magazine">
-          <div class="item home"></div>
           <span class="text">杂志</span>
         </router-link>
         <router-link tag="div" class="tab-bar-item" to="/read/Booklet">
-          <div class="item home"></div>
           <span class="text">单行本</span>
         </router-link>
       </div>
       <img src="../../assets/img/Dh.png">
     </div>
+    <router-view />
   </div>
 </template>
 
