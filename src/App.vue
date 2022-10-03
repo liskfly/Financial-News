@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-     <keep-alive>
+    <keep-alive>
       <router-view />
-</keep-alive>
-    
+    </keep-alive>
 
     <div class="tab-bar">
       <router-link tag="div" class="tab-bar-item" to="/">
@@ -17,20 +16,21 @@
       <router-link tag="div" class="tab-bar-item" to="/read">
         <div class="item read"></div>
         <span class="text">阅读</span>
-        </router-link>
+      </router-link>
       <router-link tag="div" class="tab-bar-item" to="/user">
         <div class="item user"></div>
         <span class="text">我的</span>
-        </router-link>
+      </router-link>
     </div>
   </div>
 </template>
 
+
 <style lang="scss">
-.news{
-  // margin-bottom: 50px;
-  // overflow: auto;
-}
+// .news{
+//   margin-bottom: 50px;
+//   overflow: auto;
+// }
 .tab-bar {
   display: flex;
   position: fixed;
@@ -47,7 +47,7 @@
     align-items: center;
     justify-content: space-around;
     font-size: 13px;
-   
+
     .item {
       width: 25px;
       height: 25.5px;

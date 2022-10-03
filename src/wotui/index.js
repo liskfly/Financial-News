@@ -1,7 +1,7 @@
 
-import { Button, Popup,Swipe, SwipeItem,InfiniteLoad } from 'wot-design'
+import { Button, Popup,Swipe, SwipeItem,InfiniteLoad ,Lazyload } from 'wot-design'
 
-const UI = [Button, Popup,Swipe, SwipeItem,InfiniteLoad]
+const UI = [Button, Popup,Swipe, SwipeItem,InfiniteLoad,Lazyload ]
 
 const WotUIPlugin = {};
 

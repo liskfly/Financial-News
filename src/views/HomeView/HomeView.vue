@@ -4,11 +4,12 @@
       <span>YiMagazine</span>
       <img src="../../assets/img/Yg.png" />
     </div>
-       <HomeHead :banner="banner"></HomeHead>
-  
+    <HomeHead :banner="banner"></HomeHead>
+
     <div class="homo-news">
       <HomeContent :homeNews="homeNews" />
     </div>
+
     <wd-infinite-load
       ref="loadmore"
       @loadmore="loadmore"
@@ -77,7 +78,7 @@ export default {
 .home {
   margin-bottom: 65px;
   overflow: visible;
-   .Headlines {
+  .Headlines {
     width: 100vw;
     padding: 30px 10px 20px 30vw;
     font-family: "穿越寒冬拥抱你";
@@ -95,7 +96,6 @@ export default {
       width: 18px;
       height: 18px;
     }
-  
   }
 }
 </style>

@@ -53,7 +53,6 @@ export default {
               this.book.push(data[0])
             }
           })
-          console.log(this.book);
         });
     }
   },
