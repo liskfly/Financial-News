@@ -10,7 +10,7 @@
     </div>
 
     <div class="photo">
-      <img :src="newsData.cover_url" alt="img" />
+      <img v-lazy="newsData.cover_url" alt="img" />
       <i class="top" v-if="type == 'top_article'"></i>
     </div>
 

@@ -2,7 +2,7 @@
   <div class="Head">
     <div>
       <wd-swipe>
-        <wd-swipe-item v-for="item in banner" :key="item.title">
+        <wd-swipe-item v-for="item in banner" :key="item.title" duration="1000">
           <img :src="item.cover_url" class="swipe-img" />
         </wd-swipe-item>
       </wd-swipe>
@@ -25,7 +25,9 @@ export default {
 .Head {
 
   .swipe-img {
-    width: 100vw;
+    margin: 0 3vw;
+    border-radius: 5px;
+    width: 94vw;
     height: 45vw;
   }
 }
