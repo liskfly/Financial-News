@@ -26,10 +26,7 @@
 </template>
 
 <style lang="scss" scoped>
-.news {
-  // margin-bottom: 50px;
-  // overflow: auto;
-}
+
 .tab-bar {
   display: flex;
   position: fixed;
