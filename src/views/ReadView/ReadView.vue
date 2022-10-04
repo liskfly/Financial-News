@@ -33,6 +33,7 @@
   align-items: center;
   padding: 30px 5vw 20px 5vw;
   background-color: #fff;
+  z-index: 999;
   img {
     width: 20px;
     height: 16px;

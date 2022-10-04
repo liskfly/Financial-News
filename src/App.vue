@@ -36,6 +36,7 @@
   height: 55px;
   border-top: 1px solid #eee;
   background-color: #fff;
+  z-index: 999;
   .tab-bar-item {
     flex: 1;
     display: flex;
