@@ -5,7 +5,7 @@
         <wd-swipe-item v-for="item in banner" :key="item.summary">
           <div class="swipe">
             <div class="swipe-img">
-              <img :src="item.cover_url" class="cover"/>
+              <img v-lazy="item.cover_url" class="cover"/>
               <div v-if="item.price" class="money">¥{{item.price}}</div>
               <img v-if="!item.price" class="download" src="../assets/img/X-.png">
             </div>
@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .ReadHead {
-  margin-top: 2vh;
+  margin-top: 66px;
   padding-bottom: 2vh;
   border-bottom: 1vh solid #f5f5f5;
   .swipe {

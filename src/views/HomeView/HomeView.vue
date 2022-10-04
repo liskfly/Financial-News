@@ -1,21 +1,24 @@
 <template>
   <div class="home">
-    <div class="Headlines">
-      <span>YiMagazine</span>
-      <img src="../../assets/img/Yg.png" />
-    </div>
-    <HomeHead :banner="banner"></HomeHead>
+      <router-view />
+    <div v-show="$route.meta.showfater">
+      <div class="Headlines">
+        <span>YiMagazine</span>
+        <img src="../../assets/img/Yg.png" />
+      </div>
+      <HomeHead :banner="banner"></HomeHead>
 
-    <div class="homo-news">
-      <HomeContent :homeNews="homeNews" />
-    </div>
+      <div class="homo-news">
+        <HomeContent :homeNews="homeNews" />
+      </div>
 
-    <wd-infinite-load
-      ref="loadmore"
-      @loadmore="loadmore"
-      :loading="loading"
-      v-if="homeNews.length"
-    />
+      <wd-infinite-load
+        ref="loadmore"
+        @loadmore="loadmore"
+        :loading="loading"
+        v-if="homeNews.length"
+      />
+    </div>
   </div>
 </template>
 
@@ -76,7 +79,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
-  margin-bottom: 65px;
   overflow: visible;
   .Headlines {
     width: 100vw;
@@ -96,6 +98,9 @@ export default {
       width: 18px;
       height: 18px;
     }
+  }
+  .homo-news{
+    padding: 0 3vw;
   }
 }
 </style>

@@ -4,7 +4,7 @@
       <router-view />
     </keep-alive>
 
-    <div class="tab-bar">
+    <div class="tab-bar" v-show="$route.meta.showfater">
       <router-link tag="div" class="tab-bar-item" to="/">
         <div class="item home"></div>
         <span class="text">首页</span>
@@ -25,12 +25,7 @@
   </div>
 </template>
 
-
-<style lang="scss">
-// .news{
-//   margin-bottom: 50px;
-//   overflow: auto;
-// }
+<style lang="scss" scoped>
 .tab-bar {
   display: flex;
   position: fixed;
