@@ -38,6 +38,10 @@ const routes = [
       path: '/read/Booklet',
       name: 'Booklet',
       component: BookletView,
+    },{
+      path: '/read/BookData',
+      name: 'Booklet',
+      component: () => import("../components/ReadBookData.vue"),
     }]
   },
   {
