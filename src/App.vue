@@ -4,7 +4,7 @@
       <router-view />
     </keep-alive>
 
-    <div class="tab-bar">
+    <div class="tab-bar" v-show="$route.meta.showfater">
       <router-link tag="div" class="tab-bar-item" to="/">
         <div class="item home"></div>
         <span class="text">首页</span>

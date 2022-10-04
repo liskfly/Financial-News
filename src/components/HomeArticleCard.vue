@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="goToHomeArticle">
     <div class="text">
       <h2>{{ newsData.title }}</h2>
       <span
@@ -32,6 +32,8 @@ export default {
   props: {
     newsData: Object,
     type: String,
+    id:Number,
+    articleType:String
   },
   computed: {
     getDate() {
@@ -50,13 +52,21 @@ export default {
       }
     },
   },
+  methods:{
+     goToHomeArticle(){
+      this.$router.push(
+        `/home-article?article_type=${this.articleType}&id=${this.id}`
+      )
+      // console.log(this.$route.name);
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .item {
   // display: flex;
   // flex-direction: column;
-  padding: 20px 10px;
+  padding: 20px 0;
   border-bottom: 1px solid #eee;
   .text {
     span {
@@ -67,6 +77,7 @@ export default {
     }
   }
   .photo {
+    position: relative;
     margin: 20px 0;
     border-radius: 5px;
     width: 100%;
@@ -75,6 +86,16 @@ export default {
     img {
       width: 100%;
       height: 200px;
+    }
+    .top{
+      position: absolute;
+      right: 10px;
+      bottom: 15px;
+      border-radius: 999px;
+      width: 23px;
+      height: 23px;
+      background-image: url(../assets/img/3f.png);
+      background-size: 100% 100%;
     }
   }
   .item-bottom {

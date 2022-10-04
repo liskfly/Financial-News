@@ -11,22 +11,44 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta:{
+      showfater:true
+    },
+    children: [
+      {
+        path: 'home-article',
+        name: 'home-article',
+        meta:{
+          showfater:false
+        },
+        component: () => import("../views/HomeChildren/HomeArticleView.vue"),
+      }
+    ]
   },
   {
     path: '/audio',
     name: 'audio',
-    component: AudioView
+    component: AudioView,
+    meta:{
+      showfater:true
+    },
   },
   {
     path: '/read',
     name: 'read',
-    component: ReadView
+    component: ReadView,
+    meta:{
+      showfater:true
+    },
   },
   {
     path: '/user',
     name: 'user',
-    component: UserView
+    component: UserView,
+    meta:{
+      showfater:true
+    },
   },
 ]
 
