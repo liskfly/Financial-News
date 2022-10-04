@@ -5,6 +5,10 @@ import AudioView from '../views/AudioView/AudioView'
 import UserView from '../views/UserView/UserView'
 import ReadView from '../views/ReadView/ReadView'
 
+import AllView from '../views/ReadView/AllView/AllView.vue'
+import MagazineView from '../views/ReadView/MagazineView/MagazineView.vue'
+import BookletView from '../views/ReadView/BookletView/BookletView.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,9 +42,25 @@ const routes = [
     path: '/read',
     name: 'read',
     component: ReadView,
+<<<<<<< HEAD
     meta:{
       showfater:true
     },
+=======
+    children:[{
+      path: '/read/',
+      name: 'all',
+      component: AllView,
+    },{
+      path: '/read/magazine',
+      name: 'magazine',
+      component: MagazineView,
+    },{
+      path: '/read/Booklet',
+      name: 'Booklet',
+      component: BookletView,
+    }]
+>>>>>>> readPage
   },
   {
     path: '/user',

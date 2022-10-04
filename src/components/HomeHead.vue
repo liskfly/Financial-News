@@ -14,7 +14,7 @@
 <script>
 export default {
   props: ["banner"],
-  data() {
+  data () {
     return {};
   },
   methods: {},
@@ -23,7 +23,6 @@ export default {
 
 <style lang="scss">
 .Head {
-
   .swipe-img {
     margin: 0 3vw;
     border-radius: 5px;
