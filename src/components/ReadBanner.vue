@@ -77,7 +77,7 @@ export default {
         left: 0;
         top: 0;
         background-color: #c9ab79;
-        z-index: 999;
+        z-index: 1;
         border-radius: 0 20px 20px 0;
         text-align: center;
         color: white;
