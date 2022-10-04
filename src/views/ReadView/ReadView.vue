@@ -32,7 +32,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 5vw 20px 5vw;
-
+  background-color: #fff;
   img {
     width: 20px;
     height: 16px;
