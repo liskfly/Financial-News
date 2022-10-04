@@ -20,7 +20,8 @@ export default {
     }
   },
   created () {
-    this.getData = debounce(this.getBannerData);
+    this.getBannerData = debounce(this.getBannerData);
+    this.getBookData = debounce(this.getBookData);
   },
   mounted () {
     this.getBannerData();
@@ -53,7 +54,6 @@ export default {
               this.book.push(data[0])
             }
           })
-          console.log(this.book);
         });
     }
   },

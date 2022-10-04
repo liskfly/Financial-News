@@ -6,8 +6,7 @@ import UserView from '../views/UserView/UserView'
 import ReadView from '../views/ReadView/ReadView'
 
 import AllView from '../views/ReadView/AllView/AllView.vue'
-import MagazineView from '../views/ReadView/MagazineView/MagazineView.vue'
-import BookletView from '../views/ReadView/BookletView/BookletView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -42,25 +41,32 @@ const routes = [
     path: '/read',
     name: 'read',
     component: ReadView,
-<<<<<<< HEAD
     meta:{
       showfater:true
     },
-=======
     children:[{
       path: '/read/',
       name: 'all',
       component: AllView,
+      meta:{
+        showfater:true
+      },
     },{
       path: '/read/magazine',
       name: 'magazine',
-      component: MagazineView,
+      component:()=>import("../views/ReadView/MagazineView/MagazineView.vue"),
+      meta:{
+        showfater:true
+      },
     },{
       path: '/read/Booklet',
       name: 'Booklet',
-      component: BookletView,
+      component: ()=>import("../views/ReadView/BookletView/BookletView.vue"),
+      meta:{
+        showfater:true
+      },
     }]
->>>>>>> readPage
+
   },
   {
     path: '/user',

@@ -9,7 +9,7 @@
       <ul>
         <li v-for="item in book" :key="item.summary" class="book-list">
           <div class="swipe-img">
-            <img :src="item.cover_url" class="cover">
+            <img v-lazy="item.cover_url" class="cover">
             <div v-if="item.price" class="money">¥{{item.price}}</div>
             <img v-if="!item.price" class="download" src="../assets/img/X-.png">
           </div>
