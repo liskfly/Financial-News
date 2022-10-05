@@ -44,6 +44,7 @@ const routes = [
     meta:{
       showfater:true
     },
+    // redirect:'',
     children:[{
       path: '/read/',
       name: 'all',

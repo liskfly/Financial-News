@@ -29,11 +29,11 @@
 import { debounce } from "lodash-es";
 import ArticleContent from './ArticleContent.vue';
 export default {
- 
   data(){
     return {
       articleId:this.$route.query.id,
-      article:[],
+      article:{},
+   
       articleType:this.$route.query.article_type
     }
   },
@@ -57,7 +57,7 @@ export default {
   methods:{
     goBack(){
        this.$router.go(-1);
-       this.article=[]
+       this.article={}
     },
     getArticleData(){
       // console.log(1);

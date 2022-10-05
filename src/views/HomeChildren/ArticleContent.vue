@@ -19,12 +19,12 @@
     <div class="text-box">
       <div class="text">
         <div class="authors">
-          <div class="authors-img">
+          <div class="authors-img" v-if="article.authors">
             <img :src="article.authors[0].avatar" alt="authors-img" />
           </div>
-          <div class="authors-megs">
-            <p>
-              {{ article.authors[0].name }}等<span class="count">{{
+          <div class="authors-megs" v-if="article.authors">
+            <p >
+              {{ article.authors[0].name}}等<span class="count">{{
                 article.authors.length
               }}</span
               >位作者
@@ -69,6 +69,9 @@ export default {
       let str = `${date.getMonth() + 1}月${date.getDate()}日`;
       return str;
     },
+    // authors(){
+    //     return this.article.authors.filter((t,index)=>index!==0)
+    // }
   },
   methods: {
     addArticle() {
