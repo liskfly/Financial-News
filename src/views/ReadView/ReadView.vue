@@ -1,6 +1,6 @@
 <template>
   <div class="read">
-    <div class="read-head">
+    <div class="read-head" v-show="$route.meta.showfater">
       <img src="../../assets/img/3H.png">
       <div class="readType">
         <router-link tag="div" class="tab-bar-item" to="/read/">
@@ -32,6 +32,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 5vw 20px 5vw;
+  background-color: white;
 
   img {
     width: 20px;

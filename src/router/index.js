@@ -51,6 +51,21 @@ const routes = [
       meta:{
         showfater:true
       },
+      children:[{
+        path: 'magazineData',
+        name: 'magazineData',
+        component:()=>import("../views/ReadView/magazineData.vue"),
+        meta:{
+          showfater:false
+        },
+      },{
+        path: 'subjectData',
+        name: 'subjectData',
+        component:()=>import("../views/ReadView/subjectData.vue"),
+        meta:{
+          showfater:false
+        },
+      }]
     },{
       path: '/read/magazine',
       name: 'magazine',

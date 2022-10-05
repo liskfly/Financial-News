@@ -5,7 +5,7 @@
         <wd-swipe-item v-for="item in banner" :key="item.summary">
           <div class="swipe">
             <div class="swipe-img">
-              <img v-lazy="item.cover_url" class="cover"/>
+              <img @click="getBookData(item.type,item.id,item.cover_url)" v-lazy="item.cover_url" class="cover" />
               <div v-if="item.price" class="money">¥{{item.price}}</div>
               <img v-if="!item.price" class="download" src="../assets/img/X-.png">
             </div>
@@ -13,11 +13,13 @@
             <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +
             item.display_time.match(/\d+/g)[1] + '.' +
             item.display_time.match(/\d+/g)[2]}}</span>
-
           </div>
         </wd-swipe-item>
       </wd-swipe>
     </div>
+    <transition name="fade">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -26,9 +28,23 @@
 export default {
   props: ["banner"],
   data () {
-    return {};
+    return {
+    };
   },
-  methods: {},
+  methods: {
+    getBookData (type, id, img) {
+      if (type == "Magazine") {
+        this.$router.push(
+          `/read/magazineData?&id=${id}&img=${img}`
+        )
+      } else {
+        this.$router.push(
+          `/read/subjectData?&id=${id}&img=${img}`
+        )
+      }
+
+    }
+  },
 };
 </script>
 
@@ -37,6 +53,20 @@ export default {
   margin-top: 66px;
   padding-bottom: 2vh;
   border-bottom: 1vh solid #f5f5f5;
+
+  .fade-enter-active,
+  .fade-leave-active {
+    left: 0;
+    // opacity: 1;
+    transition: all 0.2s linear;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    left: 100vw;
+    // opacity: 0;
+    transition: all 0.2s linear;
+  }
+
   .swipe {
     display: flex;
     flex-direction: column;
@@ -77,7 +107,6 @@ export default {
         left: 0;
         top: 0;
         background-color: #c9ab79;
-        z-index: 1;
         border-radius: 0 20px 20px 0;
         text-align: center;
         color: white;
