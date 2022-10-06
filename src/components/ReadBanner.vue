@@ -5,7 +5,7 @@
         <wd-swipe-item v-for="item in banner" :key="item.summary">
           <div class="swipe">
             <div class="swipe-img">
-              <img @click="getBookData(item.type,item.id,item.cover_url)" v-lazy="item.cover_url" class="cover" />
+              <img @click="getBookData(item.type,item.id,item.cover_url,item.name,item.summary)" v-lazy="item.cover_url" class="cover" />
               <div v-if="item.price" class="money">¥{{item.price}}</div>
               <img v-if="!item.price" class="download" src="../assets/img/X-.png">
             </div>
@@ -17,9 +17,6 @@
         </wd-swipe-item>
       </wd-swipe>
     </div>
-    <transition name="fade">
-      <router-view />
-    </transition>
   </div>
 </template>
 
@@ -32,10 +29,11 @@ export default {
     };
   },
   methods: {
-    getBookData (type, id, img) {
+    getBookData (type, id, img,name,summary) {
+      console.log(name,summary);
       if (type == "Magazine") {
         this.$router.push(
-          `/read/magazineData?&id=${id}&img=${img}`
+          `/read/magazineData?&id=${id}&img=${img}&name=${name}&summary=${summary}`
         )
       } else {
         this.$router.push(
@@ -54,18 +52,7 @@ export default {
   padding-bottom: 2vh;
   border-bottom: 1vh solid #f5f5f5;
 
-  .fade-enter-active,
-  .fade-leave-active {
-    left: 0;
-    // opacity: 1;
-    transition: all 0.2s linear;
-  }
-  .fade-enter,
-  .fade-leave-to {
-    left: 100vw;
-    // opacity: 0;
-    transition: all 0.2s linear;
-  }
+
 
   .swipe {
     display: flex;

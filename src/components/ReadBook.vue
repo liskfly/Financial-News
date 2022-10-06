@@ -20,6 +20,9 @@
         </li>
       </ul>
     </div>
+    <transition name="fade">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -39,6 +42,19 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .fade-enter-active,
+  .fade-leave-active {
+    left: 0;
+    // opacity: 1;
+    transition: all 0.2s linear;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    left: 100vw;
+    // opacity: 0;
+    transition: all 0.2s linear;
+  }
 
   .year {
     display: flex;
