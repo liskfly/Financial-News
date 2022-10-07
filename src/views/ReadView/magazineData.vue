@@ -19,9 +19,13 @@
       <div class="type" v-if="bookData[0]">
         <div class="cover-story flex">
           <img :src="bookData[0].column_icon">
-          <div @click="dropDown(bookData[0])" class="article flex">
-            <span>{{bookData[0].column_summary}}</span>
+          <div class="article flex blue" :class="stow[0].key ? '':'short'">
+            <span :class="stow[0].key ? '':'hide'">{{bookData[0].column_summary}}</span>
+            <span>共{{bookData[0].articles.length}}文章</span>
+            <span v-for="item in bookData[0].articles" :key="item.title" class="borderLine">{{item.title}}</span>
+            <span @click="dropDown(0)">点击收起</span>
           </div>
+          <div class="up" @click="dropDown(0)" v-show="!stow[0].key">></div>
         </div>
         <div class="research flex"></div>
         <div class="appetizer flex"></div>
@@ -42,6 +46,7 @@ export default {
       bookId: this.$route.query.id,
       img: this.$route.query.img,
       bookData: {},
+      stow: [{key:false}, false, false, false, false]
     }
   },
   created () {
@@ -60,6 +65,10 @@ export default {
           console.log(data, this.summary, this.name);
           this.bookData = data
         });
+    },
+    dropDown (index) {
+      this.stow[index].key = !this.stow[index].key
+      console.log(this.stow);
     }
   },
 }
@@ -159,19 +168,52 @@ export default {
     }
 
     .type {
-      padding: 4vh 2vw 0;
+      padding: 0 2vw 0;
 
       .cover-story {
-        width: 94VW;
-        height: 24vw;
+        width: 72vw;
+        background-color: rgb(191, 240, 255);
+        position: relative;
+
+        .up {
+          position: absolute;
+          right: 2vw;
+          bottom: 2vw;
+          transform:rotate(90deg);
+        }
 
         img {
           width: 24vw;
+          height: 24vw;
+        }
+
+        .short {
+          height: 12vw;
+          overflow: hidden;
         }
 
         .article {
-          width: 40vw;
+          box-sizing: border-box;
+          width: 48vw;
           flex-direction: column;
+          font-size: 12px;
+          background-color: rgb(191, 240, 255);
+
+          span {
+            margin: 2vh 4vw 0;
+            padding-bottom: 2vh;
+          }
+
+          .borderLine {
+            border-bottom: 1px solid black;
+          }
+
+          .hide {
+            height: 12vw;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
         }
       }
     }
