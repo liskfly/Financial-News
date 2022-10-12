@@ -15,15 +15,15 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
     children: [
       {
         path: 'home-article',
         name: 'home-article',
-        meta:{
-          showfater:false
+        meta: {
+          showfater: false
         },
         component: () => import("../views/HomeChildren/HomeArticleView.vue"),
       }
@@ -33,37 +33,45 @@ const routes = [
     path: '/audio',
     name: 'audio',
     component: AudioView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
+    children: [{
+      path: '/audio/search',
+      name: 'search',
+      meta: {
+        showfater: false
+      },
+      component: () => import("../components/SearchBar.vue")
+    }]
   },
   {
     path: '/read',
     name: 'read',
     component: ReadView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
-    children:[{
+    children: [{
       path: '/read/',
       name: 'all',
       component: AllView,
-      meta:{
-        showfater:true
+      meta: {
+        showfater: true
       },
-    },{
+    }, {
       path: '/read/magazine',
       name: 'magazine',
-      component:()=>import("../views/ReadView/MagazineView/MagazineView.vue"),
-      meta:{
-        showfater:true
+      component: () => import("../views/ReadView/MagazineView/MagazineView.vue"),
+      meta: {
+        showfater: true
       },
-    },{
+    }, {
       path: '/read/Booklet',
       name: 'Booklet',
-      component: ()=>import("../views/ReadView/BookletView/BookletView.vue"),
-      meta:{
-        showfater:true
+      component: () => import("../views/ReadView/BookletView/BookletView.vue"),
+      meta: {
+        showfater: true
       },
     }]
 
@@ -72,8 +80,8 @@ const routes = [
     path: '/user',
     name: 'user',
     component: UserView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
   },
 ]
