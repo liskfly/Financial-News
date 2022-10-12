@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view />
+      <router-view @sent-appId="sentAudioId"/>
     </keep-alive>
 
     <div class="tab-bar" v-show="$route.meta.showfater">
-      <router-link tag="div" class="tab-bar-item" to="/">
+      <router-link tag="div" class="tab-bar-item" to="/home">
         <div class="item home"></div>
         <span class="text">首页</span>
       </router-link>
@@ -24,7 +24,21 @@
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  data(){
+    return {
+      src:''
+    }
+  },
+  methods:{
+    sentAudioId(n){
+      console.log(n);
+      this.src=n
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 
 .tab-bar {
@@ -36,7 +50,7 @@
   height: 55px;
   border-top: 1px solid #eee;
   background-color: #fff;
-  z-index: 999;
+  // z-index: 999;
   .tab-bar-item {
     flex: 1;
     display: flex;
@@ -63,7 +77,7 @@
     .user {
       background-image: url(./assets/img/uW.png);
     }
-    &.router-link-exact-active {
+    &.router-link-active {
       .home {
         background-image: url(./assets/img/v_.png);
       }

@@ -1,12 +1,17 @@
 <template>
   <div class="audio">
-    <div class="Headlines">
-      <span>听</span>
-      <img src="../../assets/img/Yg.png" />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
+    <div v-show="$route.meta.showfater">
+      <div class="Headlines">
+        <span>听</span>
+        <img src="../../assets/img/Yg.png" />
+      </div>
+      <HomeHead :banner="banner"></HomeHead>
+      <BoutiqueArea :area="area"></BoutiqueArea>
+      <PopularRed :popular="popular"></PopularRed>
     </div>
-    <HomeHead :banner="banner"></HomeHead>
-    <BoutiqueArea :area="area"></BoutiqueArea>
-    <PopularRed :popular="popular"></PopularRed>
   </div>
 </template>
 <script>
@@ -25,12 +30,12 @@ export default {
   created() {
     this.getAudioBanner = debounce(this.getAudioBanner);
     this.getArea = debounce(this.getArea);
-     this.getPopular = debounce(this.getPopular);
+    this.getPopular = debounce(this.getPopular);
   },
   mounted() {
     this.getAudioBanner();
     this.getArea();
-     this.getPopular()
+    this.getPopular();
   },
   methods: {
     getAudioBanner() {

@@ -33,7 +33,6 @@ export default {
     return {
       articleId:this.$route.query.id,
       article:{},
-   
       articleType:this.$route.query.article_type
     }
   },
@@ -45,7 +44,7 @@ export default {
       this.articleType=val
     },
     articleId(a,b){
-      if(a!=undefined&&(a!=b)){
+      if(a!=undefined&&(a!=b)&&a!=''){
          this.getArticleData();
       }
     }
@@ -60,13 +59,10 @@ export default {
        this.article={}
     },
     getArticleData(){
-      // console.log(1);
-      // console.log(this.articleId);
        this.$axios
         .get(`http://api2021.cbnweek.com/v4/articles/${this.articleId}`)
         .then(({ data }) => {
           this.article = data;
-          // console.log(this.article);
         });
     }
   },

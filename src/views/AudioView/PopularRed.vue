@@ -2,7 +2,7 @@
   <div class="popular">
     <h2>热门推荐</h2>
     <span class="text">最高人气·最热点播</span>
-    <div class="box" v-for="p in popular" :key="p.id">
+    <div class="box" v-for="p in popular" :key="p.id" @click="goToAudioDetail(p.id)">
       <div class="box-left">
         <img v-lazy="p.cover_url" class="lazyload-img" />
       </div>
@@ -38,6 +38,11 @@ export default {
       sec = sec > 10 ? sec : "0" + sec;
       return min + ":" + sec;
     },
+     goToAudioDetail(a){
+      this.$router.push(
+        `/audio-detail?detail_id=${a}`
+      )
+    }
   },
 };
 </script>

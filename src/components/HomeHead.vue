@@ -2,7 +2,7 @@
   <div class="Head">
     <div>
       <wd-swipe>
-        <wd-swipe-item v-for="item in banner" :key="item.title" duration="1000">
+        <wd-swipe-item v-for="item in banner" :key="item.title" duration="1000" >
           <img :src="item.cover_url" class="swipe-img" />
         </wd-swipe-item>
       </wd-swipe>
