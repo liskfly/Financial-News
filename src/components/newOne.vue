@@ -1,48 +1,60 @@
 <template>
-  <div class="ReadBook">
-    <div class="year">
-      <div class="line"></div>
-      <span>2021年</span>
-      <div class="line"></div>
-    </div>
-    <div class="book">
-      <ul>
-        <li v-for="item in book" :key="item.summary" class="book-list">
-          <div class="swipe-img">
-            <img v-lazy="item.cover_url" class="cover">
-            <div v-if="item.price" class="money">¥{{item.price}}</div>
-            <img v-if="!item.price" class="download" src="../assets/img/X-.png">
-          </div>
-          <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
-          <span>{{item.display_time.match(/\d+/g)[0] + '.' +
+  <div>
+    <div class="ReadBook" v-for="(t,index) in num" :key="index">
+      <div class="year">
+        <div class="line"></div>
+        <span>{{t}}年</span>
+        <div class="line"></div>
+      </div>
+      <div class="book">
+        <ul>
+          <li v-for="(item,i) in book1" :key="i"
+            :style="{marginLeft:item.maga_year == t || parseInt(item.display_time) == t ?'4vw':''}"
+            @click="goMagazineData(item.type,item.id)">
+            <div class="book-list" v-if="item.maga_year == t || parseInt(item.display_time) == t">
+
+              <div class="swipe-img">
+                <img v-lazy="item.cover_url" class="cover">
+                <div v-if="item.price" class="money">¥{{item.price}}</div>
+                <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
+              </div>
+              <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
+              <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +
             item.display_time.match(/\d+/g)[1] + '.' +
             item.display_time.match(/\d+/g)[2]}}</span>
-        </li>
-      </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-    <transition name="fade">
-      <router-view />
-    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["book"],
+  props: ["book1", "num"],
   data () {
     return {};
   },
-  methods: {},
+  watch: {
+  },
+  methods: {
+    goMagazineData (type, id) {
+      this.$router.push(
+        `/magazineData?&magazineData_type=${type}&magazineData_id=${id}`
+      )
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .ReadBook {
-  padding: 3vh 0;
+  padding: 4vh 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-    border-top: 1vh solid #f5f5f5;
+  border-top: 1vh solid #f5f5f5;
 
   .fade-enter-active,
   .fade-leave-active {
@@ -81,11 +93,9 @@ export default {
       flex-wrap: wrap;
 
       .book-list {
-        width: 28vw;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-left: 4vw;
 
         .swipe-img {
           width: 28vw;
@@ -126,6 +136,10 @@ export default {
           text-align: center;
           text-overflow: ellipsis;
           overflow: hidden;
+        }
+
+        .time {
+          font-size: 12px;
         }
 
         .title {

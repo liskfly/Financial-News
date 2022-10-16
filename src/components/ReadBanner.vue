@@ -5,9 +5,9 @@
         <wd-swipe-item v-for="item in banner" :key="item.summary">
           <div class="swipe">
             <div class="swipe-img">
-              <img @click="getBookData(item.type,item.id,item.cover_url,item.name,item.summary)" v-lazy="item.cover_url" class="cover" />
+              <img @click="goMagazineData(item.type,item.id)" v-lazy="item.cover_url" class="cover" />
               <div v-if="item.price" class="money">¥{{item.price}}</div>
-              <img v-if="!item.price" class="download" src="../assets/img/X-.png">
+              <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
             </div>
             <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
             <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +
@@ -29,18 +29,10 @@ export default {
     };
   },
   methods: {
-    getBookData (type, id, img,name,summary) {
-      console.log(name,summary);
-      if (type == "Magazine") {
+    goMagazineData(type,id){
         this.$router.push(
-          `/read/magazineData?&id=${id}&img=${img}&name=${name}&summary=${summary}`
+          `/magazineData?&magazineData_type=${type}&magazineData_id=${id}`
         )
-      } else {
-        this.$router.push(
-          `/read/subjectData?&id=${id}&img=${img}`
-        )
-      }
-
     }
   },
 };
@@ -48,11 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 .ReadHead {
-  margin-top: 66px;
   padding-bottom: 2vh;
-  border-bottom: 1vh solid #f5f5f5;
-
-
 
   .swipe {
     display: flex;
@@ -72,7 +60,7 @@ export default {
 
     .time {
       font-size: 12px;
-      margin-top: 12px;
+      margin-top: 18px;
     }
 
     .swipe-img {

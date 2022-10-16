@@ -55,7 +55,7 @@ export default {
   methods:{
      goToHomeArticle(){
       this.$router.push(
-        `/home-article?article_type=${this.articleType}&id=${this.id}`
+        `${this.$route.path}/home-article?article_type=${this.articleType}&id=${this.id}`
       )
       // console.log(this.$route.name);
     }

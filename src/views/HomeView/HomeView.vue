@@ -12,12 +12,7 @@
         <HomeContent :homeNews="homeNews" />
       </div>
 
-      <wd-infinite-load
-        ref="loadmore"
-        @loadmore="loadmore"
-        :loading="loading"
-        v-if="homeNews.length"
-      />
+      <wd-infinite-load ref="loadmore" @loadmore="loadmore" :loading="loading" v-if="homeNews.length" />
     </div>
   </div>
 </template>
@@ -28,7 +23,7 @@ import HomeContent from "./HomeContent.vue";
 import { debounce } from "lodash-es";
 
 export default {
-  data() {
+  data () {
     return {
       page: 0,
       loading: false,
@@ -36,16 +31,16 @@ export default {
       homeNews: [],
     };
   },
-  created() {
+  created () {
     this.getData = debounce(this.getData);
     this.getHomeNewsData = debounce(this.getHomeNewsData);
   },
-  mounted() {
+  mounted () {
     this.getData();
     this.getHomeNewsData();
   },
   methods: {
-    getHomeNewsData() {
+    getHomeNewsData () {
       this.page++;
       this.$axios
         .get(`http://api2021.cbnweek.com/v4/first_page_infos?page=${this.page}`)
@@ -58,7 +53,7 @@ export default {
         })
         .catch(() => this.$refs.loadmore.loadEnd());
     },
-    getData() {
+    getData () {
       this.$axios
         .get("http://api2021.cbnweek.com/v4/banners?category=first")
         .then(({ data }) => {
@@ -66,7 +61,7 @@ export default {
         });
     },
     //下拉刷新
-    loadmore() {
+    loadmore () {
       this.loading = true;
       this.getHomeNewsData();
     },
@@ -99,7 +94,7 @@ export default {
       height: 18px;
     }
   }
-  .homo-news{
+  .homo-news {
     padding: 0 3vw;
   }
 }

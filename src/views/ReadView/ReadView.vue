@@ -1,7 +1,10 @@
 <template>
   <div class="read">
     <div class="read-head" v-show="$route.meta.showfater">
-      <img src="../../assets/img/3H.png">
+      <img @click="show = true" src="../../assets/img/3H.png">
+      <wd-popup v-model="show" position="left">
+        <PopupLeft></PopupLeft>
+      </wd-popup>
       <div class="readType">
         <router-link tag="div" class="tab-bar-item" to="/read/">
           <span class="text">全部</span>
@@ -15,19 +18,34 @@
       </div>
       <img src="../../assets/img/Dh.png">
     </div>
-    <keep-alive>
+    <!-- <keep-alive> -->
     <router-view />
-    </keep-alive>
+    <!-- </keep-alive> -->
+    <div class="bottom"></div>
   </div>
 </template>
 
+<script>
+import PopupLeft from "@/views/ReadView/PopupLeft.vue";
+export default {
+  data(){
+    return{
+      show:false
+    }
+  },
+  components:{
+    PopupLeft
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .read-head {
-  position: fixed;
+  width: 100vw;
+  position: sticky;
   top: 0;
   left: 0;
   z-index: 999;
-  width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,5 +72,10 @@
       }
     }
   }
+}
+.bottom {
+  width: 100vw;
+  height: 50px;
+  background-color: white;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+      <!-- <keep-alive> -->
+        <router-view />
+      <!-- </keep-alive> -->
 
     <div class="tab-bar" v-show="$route.meta.showfater">
-      <router-link tag="div" class="tab-bar-item" to="/">
+      <router-link tag="div" class="tab-bar-item" to="/home">
         <div class="item home"></div>
         <span class="text">首页</span>
       </router-link>
@@ -26,6 +26,7 @@
 </template>
 
 <style lang="scss" scoped>
+
 .tab-bar {
   display: flex;
   position: fixed;
@@ -61,7 +62,7 @@
     .user {
       background-image: url(./assets/img/uW.png);
     }
-    &.router-link-exact-active {
+    &.router-link-active {
       .home {
         background-image: url(./assets/img/v_.png);
       }

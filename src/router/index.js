@@ -5,27 +5,37 @@ import AudioView from '../views/AudioView/AudioView'
 import UserView from '../views/UserView/UserView'
 import ReadView from '../views/ReadView/ReadView'
 
-import AllView from '../views/ReadView/AllView/AllView.vue'
+import AllView from '../views/ReadView/ReadChildren/AllView.vue'
 
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
     children: [
       {
         path: 'home-article',
         name: 'home-article',
-        meta:{
-          showfater:false
+        meta: {
+          showfater: false
         },
         component: () => import("../views/HomeChildren/HomeArticleView.vue"),
+      },
+      {
+        path:'/magazineData',
+        name:'magazineData',
+        component: () => import("@/components/magazineData.vue"),
+      },
+      {
+        path:'/choieBook',
+        name:'choieBook',
+        component: () => import("@/components/choicBook.vue"),
       }
     ]
   },
@@ -33,64 +43,53 @@ const routes = [
     path: '/audio',
     name: 'audio',
     component: AudioView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
   },
   {
     path: '/read',
     name: 'read',
     component: ReadView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
-    children:[{
+    children: [{
       path: '/read/',
       name: 'all',
       component: AllView,
-      meta:{
-        showfater:true
-      },
-      children:[{
-        path: 'magazineData',
-        name: 'magazineData',
-        component:()=>import("../views/ReadView/magazineData.vue"),
-        meta:{
-          showfater:false
-        },
-      },{
-        path: 'subjectData',
-        name: 'subjectData',
-        component:()=>import("../views/ReadView/subjectData.vue"),
-        meta:{
-          showfater:false
-        },
-      }]
-    },{
+      meta: {
+        showfater: true
+      }
+    }, {
       path: '/read/magazine',
       name: 'magazine',
-      component:()=>import("../views/ReadView/MagazineView/MagazineView.vue"),
-      meta:{
-        showfater:true
+      component: () => import("../views/ReadView/ReadChildren/MagazineView.vue"),
+      meta: {
+        showfater: true
       },
-    },{
+    }, {
       path: '/read/Booklet',
       name: 'Booklet',
-      component: ()=>import("../views/ReadView/BookletView/BookletView.vue"),
-      meta:{
-        showfater:true
-      },
+      component: () => import("../views/ReadView/ReadChildren/BookletView.vue"),
+      meta: {
+        showfater: true
+      }
     }]
-
   },
   {
     path: '/user',
     name: 'user',
     component: UserView,
-    meta:{
-      showfater:true
+    meta: {
+      showfater: true
     },
   },
+  {
+    path: '/keyword-article',
+    name: 'keyword-article',
+    component: () => import("@/components/KeywordArticle"),
+  }
 ]
 
 const router = new VueRouter({
@@ -98,5 +97,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+const routerReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function (location) {
+  return routerReplace.call(this, location).catch(error => error)
+}
+
 
 export default router
