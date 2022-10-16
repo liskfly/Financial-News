@@ -23,7 +23,7 @@
             </div>
           </div>
         </div>
-        <div class="audio-img" :class="{playmg:false}" @click="sentAudioId(n.id)"></div>
+        <div class="audio-img" :class="{playmg:playChoose}" @click="sentAudioId(n.id,n.audioserie_id)"></div>
       </div>
       <div class="news-box">
         <div class="new-img">
@@ -42,12 +42,18 @@ import { getDate, monthEnList } from "@/utils/GetDate";
 
 export default {
   components: { TextRun },
-  props: ["newsWeek", "hide"],
+  props: ["newsWeek", "hide",'playAudio'],
   data() {
     return {
       dateTime: "",
       showWeek: false,
+      playChoose:this.playAudio
     };
+  },
+  watch:{
+    playAudio(a){
+      this.playChoose=a
+    }
   },
   computed: {
     todayNews() {
@@ -67,6 +73,8 @@ export default {
     chooseDate(a) {
       this.dateTime = a;
       this.showWeek = false;
+      // this.playChoose=false
+      // this.$emit('sent-id',b, this.playChoose)
     },
     newsText(a) {
       let textArr = a.split("\n");
@@ -82,9 +90,10 @@ export default {
         return str;
       }
     },
-  sentAudioId(a){
-    console.log(a);
-    this.$emit('sent-id',a)
+  sentAudioId(a,b){
+    // console.log(a,b);
+    this.playChoose=!this.playChoose
+    this.$emit("sent-appId", { audioid: a, isPlay: this.playChoose,audioType:b });
   }
 
   },

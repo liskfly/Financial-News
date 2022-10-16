@@ -11,10 +11,14 @@ export function getDateMon(a) {
 }
 export const getTime = (a) => {
     let min = parseInt(a / 60);
-    min = min > 10 ? min : "0" + min;
+    min = min >9 ? min : "0" + min;
     let sec = a % 60;
-    sec = sec > 10 ? sec : "0" + sec;
+    sec = sec >9 ? sec : "0" + sec;
     return min + ":" + sec;
+}
+export const getAllDate = (a) => {
+    let date = new Date(a);
+    return date.toLocaleDateString().replace(/\//g, "-") + " " + date.toTimeString().substr(0, 8)
 }
 export const monthEnList = {
     0: 'Jan',

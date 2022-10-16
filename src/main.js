@@ -3,10 +3,12 @@ import App from './App.vue'
 import router from './router'
 import VueAxiosPlugin from 'vue-axios-plugin'
 import WotUIPlugin from './wotui'
+import { Slider,Popup} from 'vant';
 
 Vue.use(WotUIPlugin)
-
-
+Vue.use(Slider);
+Vue.use(Popup);
+// Vue.use(Cell);
 Vue.use(VueAxiosPlugin, {
   reqHandleFunc: config => {
     return config
