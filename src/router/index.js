@@ -19,16 +19,6 @@ const routes = [
     meta: {
       showfater: true
     },
-    children: [
-      {
-        path: 'home-article',
-        name: 'home-article',
-        meta: {
-          showfater: false
-        },
-        component: () => import("../views/HomeChildren/HomeArticleView.vue"),
-      }
-    ]
   },
   {
     path: '/audio',
@@ -84,6 +74,11 @@ const routes = [
     meta: {
       showfater: true
     },
+  },
+  {
+    path: '/article',
+    name: 'article',
+    component: () => import("../views/HomeChildren/HomeArticleView.vue"),
   },
   {
     path: '/audio-detail',

@@ -75,8 +75,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home-article {
-  // position: relative;
+  position: fixed;
   width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  overflow: auto;
 
   .magazine {
     display: flex;

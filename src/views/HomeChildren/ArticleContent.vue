@@ -80,7 +80,7 @@
             </div>
             <span class="summary">{{ article.summary }}</span>
           </div>
-          <div class="comment" v-if="article.editor_choice_comments.length>0">
+          <div class="comment" v-for="c in article.editor_choice_comments" :key="c.user.id">
             <p>评论</p>
             <div class="comment-box" v-for=" b in  bestComment" :key="b.content">
               <div class="comment-user">
@@ -99,8 +99,9 @@
                 <span>{{ b.like_times }} <i></i></span>
               </div>
             </div>
+             <p class="more">查看更多 >></p>
           </div>
-          <p v-if="article.editor_choice_comments.length>0" class="more">查看更多 >></p>
+         
         </div>
       </div>
     </div>
@@ -122,20 +123,21 @@ export default {
       return str;
     },
   },
-  created() {
-    if (this.article.editor_choice_comments.length>0) {
+  updated(){
+     if (this.article.editor_choice_comments.length>0) {
       this.getBestComment();
     }
   },
   methods: {
     getBestComment() {
-      // let commentUserId = this.article.editor_choice_comments[0].id;
+      console.log(this.article.id);
       this.$axios
         .get(
           `http://api2021.cbnweek.com:80/v4/articles/${this.article.id}/best_comments?order=newest&page=1&per=2`
         )
         .then(({ data }) => {
           this.bestComment = data;
+          // console.log(this.bestComment);
         });
     },
     commentTime(a) {
