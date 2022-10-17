@@ -36,9 +36,11 @@
             >
           </div>
         </div>
-        <div class="normal" v-if="article.article_type == 'normal'">
+        <div class="normal" v-if="article.article_type !='magazine'">
           <div class="dec" v-for="a in article.topics" :key="a.id">
-            <span class="dec-color">#{{ a.name }}</span>
+            <span class="dec-color" @click="goKeyWordArticle(a.id)"
+              >#{{ a.name }}</span
+            >
             <span class="summary">{{ article.summary }}</span>
           </div>
           <div v-html="article.content" class="text-item"></div>
@@ -60,7 +62,7 @@
           </div>
           <div class="recommend" v-if="recommed">
             <p class="recommend-text">相关文章</p>
-            <div class="recommend-box" v-for="r in recommed" :key="r.title">
+            <div class="recommend-box" v-for="r in recommed" :key="r.title" @click="goToArticle(r.article_type,r.id)">
               <div
                 class="recommed-img"
                 :style="{ backgroundImage: 'url(' + r.cover_url + ')' }"
@@ -70,25 +72,33 @@
           </div>
         </div>
 
-        <div class="magazine" v-if="article.article_type !== 'normal'">
+        <div class="magazine" v-if="article.article_type =='magazine'">
           <div class="dec">
             <div v-if="article.column">
-              <span class="dec-color">#{{ article.column.name }}</span>
-              <span class="dec-color"
+              <span
+                class="dec-color"
+                @click="goColumnsArticle(article.column.id)"
+                >#{{ article.column.name }}</span
+              >
+              <span
+                class="dec-color"
+                 @click="goColumnsArticle(article.column.parent_column.id)"
                 >#{{ article.column.parent_column.name }}</span
               >
             </div>
             <span class="summary">{{ article.summary }}</span>
           </div>
-          <div class="comment" v-for="c in article.editor_choice_comments" :key="c.user.id">
+          <!-- <div
+            class="comment"
+            v-for="c in article.editor_choice_comments"
+            :key="c.user.id"
+          >
             <p>评论</p>
-            <div class="comment-box" v-for=" b in  bestComment" :key="b.content">
+            <div class="comment-box" v-for="b in bestComment" :key="b.content">
               <div class="comment-user">
                 <img :src="b.user.avatar" alt="tx" />
                 <div class="comment-user-dec">
-                  <span class="comment-user-name">{{
-                    b.user.nickname
-                  }}</span>
+                  <span class="comment-user-name">{{ b.user.nickname }}</span>
                   <span class="comment-time">{{
                     commentTime(b.display_time)
                   }}</span>
@@ -99,9 +109,8 @@
                 <span>{{ b.like_times }} <i></i></span>
               </div>
             </div>
-             <p class="more">查看更多 >></p>
-          </div>
-         
+            <p class="more">查看更多 >></p>
+          </div> -->
         </div>
       </div>
     </div>
@@ -110,7 +119,7 @@
 <script>
 import { getAllDate } from "@/utils/GetDate";
 export default {
-  props: ["article", "articleType", "recommed"],
+  props: ["article",  "recommed"],
   data() {
     return {
       bestComment: {},
@@ -123,10 +132,10 @@ export default {
       return str;
     },
   },
-  updated(){
-     if (this.article.editor_choice_comments.length>0) {
-      this.getBestComment();
-    }
+  updated() {
+    // if (this.article.editor_choice_comments.length > 0) {
+    //   this.getBestComment();
+    // }
   },
   methods: {
     getBestComment() {
@@ -143,6 +152,17 @@ export default {
     commentTime(a) {
       return getAllDate(a);
     },
+    goKeyWordArticle(id) {
+      this.$router.push(`/keyword-article?keyword_type=topics&keyword_id=${id}`);
+    },
+    goColumnsArticle(id) {
+      this.$router.push(`/keyword-article?keyword_type=columns&keyword_id=${id}`);
+    },
+    goToArticle(a,b){
+       this.$router.push(
+        `/article?article_id=${b}`
+      )
+    }
   },
 };
 </script>
@@ -365,7 +385,7 @@ export default {
           }
         }
       }
-      .more{
+      .more {
         font-size: 12px;
         color: #0090f0;
       }

@@ -27,5 +27,6 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-// let a=this.$route.path!='/home'?this.$route.path:'/home'
+
 router.replace('/home')
+

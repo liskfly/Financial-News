@@ -6,11 +6,10 @@
 </template>
 <script>
 export default {
-    props:['article'],
     methods: {
     goBack() {
       this.$router.go(-1);
-    //   this.article = {};
+      this.$emit('article-clear','')
     },
   },
 };

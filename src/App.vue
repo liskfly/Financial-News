@@ -21,6 +21,7 @@
         @click.stop="stopAudio"
       ></div>
     </div>
+
     <div class="tab-bar" v-show="$route.meta.showfater">
       <router-link tag="div" class="tab-bar-item" to="/home">
         <div class="item home"></div>

@@ -23,6 +23,7 @@
         :loading="loading"
         v-if="homeNews.length"
       />
+
     </div>
   </div>
 </template>
@@ -45,19 +46,19 @@ export default {
       newsWeek: [],
     };
   },
-  created() {
+  created () {
     this.getData = debounce(this.getData);
     this.getHomeNewsData = debounce(this.getHomeNewsData);
     this.getNewsWeek = debounce(this.getNewsWeek);
     this.loadmore= debounce(this.loadmore);
   },
-  mounted() {
+  mounted () {
     this.getData();
     this.getHomeNewsData();
     this.getNewsWeek();
   },
   methods: {
-    getHomeNewsData() {
+    getHomeNewsData () {
       this.page++;
       if(this.page<5){
         this.$axios
@@ -73,7 +74,7 @@ export default {
       }
       
     },
-    getData() {
+    getData () {
       this.$axios
         .get("http://api2021.cbnweek.com/v4/banners?category=first")
         .then(({ data }) => {
@@ -88,7 +89,7 @@ export default {
         });
     },
     //下拉刷新
-    loadmore() {
+    loadmore () {
       this.loading = true;
       this.getHomeNewsData();
     },

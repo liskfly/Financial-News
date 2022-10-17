@@ -1,21 +1,20 @@
 <template>
-  <div class="home-article">
+  <div class="home-article" v-if="article">
     <div class="header">
-      <ArticleHeader :article="article" />
+      <ArticleHeader @article-clear="articleClear" />
     </div>
 
     <div>
       <ArticleContent
         :article="article"
-        :articleType="articleType"
         :recommed="recommed"
       ></ArticleContent>
     </div>
 
-    <div class="article" v-if="articleType == 'normal'">
+    <div class="article" v-if="article.article_type !='magazine' ">
       <ArticleFooter />
     </div>
-    <div class="magazine" v-if="articleType !== 'normal'">
+    <div class="magazine" v-if="article.article_type == 'magazine'">
       <span>订阅</span>
     </div>
   </div>
@@ -28,21 +27,18 @@ import ArticleFooter from "../../components/ArticleFooter.vue";
 export default {
   data() {
     return {
-      articleId: this.$route.query.id,
+      articleId: this.$route.query.article_id,
       article: {},
-      articleType: this.$route.query.article_type,
       recommed:[]
     };
   },
   watch: {
-    "$route.query.id"(val) {
+    "$route.query.article_id"(val) {
       this.articleId = val;
     },
-    "$route.query.article_type"(val) {
-      this.articleType = val;
-    },
+
     articleId(a, b) {
-      if (a != undefined && a != b && a != "") {
+      if (a != undefined && a != b) {
         this.getArticleData();
         this.getArticleRecommend()
       }
@@ -68,6 +64,9 @@ export default {
         .then(({ data }) => {
           this.recommed = data;
         });
+    },
+    articleClear(){
+      this.article=''
     }
   },
   components: { ArticleContent, ArticleHeader, ArticleFooter },

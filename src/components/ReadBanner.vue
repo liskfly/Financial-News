@@ -5,15 +5,14 @@
         <wd-swipe-item v-for="item in banner" :key="item.summary">
           <div class="swipe">
             <div class="swipe-img">
-              <img v-lazy="item.cover_url" class="cover"/>
+              <img @click="goMagazineData(item.type,item.id)" v-lazy="item.cover_url" class="cover" />
               <div v-if="item.price" class="money">¥{{item.price}}</div>
-              <img v-if="!item.price" class="download" src="../assets/img/X-.png">
+              <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
             </div>
             <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
             <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +
             item.display_time.match(/\d+/g)[1] + '.' +
             item.display_time.match(/\d+/g)[2]}}</span>
-
           </div>
         </wd-swipe-item>
       </wd-swipe>
@@ -26,17 +25,23 @@
 export default {
   props: ["banner"],
   data () {
-    return {};
+    return {
+    };
   },
-  methods: {},
+  methods: {
+    goMagazineData(type,id){
+        this.$router.push(
+          `/magazineData?&magazineData_type=${type}&magazineData_id=${id}`
+        )
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .ReadHead {
-  margin-top: 66px;
   padding-bottom: 2vh;
-  border-bottom: 1vh solid #f5f5f5;
+
   .swipe {
     display: flex;
     flex-direction: column;
@@ -55,7 +60,7 @@ export default {
 
     .time {
       font-size: 12px;
-      margin-top: 12px;
+      margin-top: 18px;
     }
 
     .swipe-img {
@@ -77,7 +82,6 @@ export default {
         left: 0;
         top: 0;
         background-color: #c9ab79;
-        z-index: 999;
         border-radius: 0 20px 20px 0;
         text-align: center;
         color: white;
