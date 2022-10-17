@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import VueAxiosPlugin from 'vue-axios-plugin'
 import WotUIPlugin from './wotui'
+
 Vue.use(WotUIPlugin)
 
 
@@ -23,3 +24,6 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+// let a=this.$route.path!='/home'?this.$route.path:'/home'
+router.replace('/home')

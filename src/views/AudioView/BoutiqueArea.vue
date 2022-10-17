@@ -3,7 +3,7 @@
     <h2>精品专区</h2>
     <span class="text">大家都在听</span>
     <div class="list">
-      <div class="box" v-for="t in area" :key="t.id">
+      <div class="box" v-for="t in area" :key="t.id" @click="goToAudioSeries(t.audio_type,t.id)">
         <div class="area-img">
           <img v-lazy="t.cover_url" />
           <div class="visit_times"><i></i> <span>{{t.visit_times}}</span></div>
@@ -21,6 +21,13 @@ export default {
   props: {
     area: Array,
   },
+  methods:{
+    goToAudioSeries(audio_type,id){
+      this.$router.push(
+         `/audio-series?audio_type=${audio_type}&Arera_id=${id}`
+      )
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -5,7 +5,7 @@
         <span @click="goBack">&lt;</span><span>全部音频</span>
       </div>
       <div class="input" @keydown.enter="keyDown">
-        <i><img src="../assets/search.svg" /></i>
+        <i><img src="../../assets/search.svg" /></i>
         <input
           v-model="val"
           class="search-bar"
@@ -13,7 +13,7 @@
           type="text"
         />
         <i @click="deleteVal" v-show="val"
-          ><img src="../assets/img/0K.png"
+          ><img src="../../assets/img/0K.png"
         /></i>
       </div>
     </div>
@@ -189,6 +189,7 @@ export default {
 
   .list-container {
     margin-top: 12.5vh;
+    margin-left: 2vw;
     .list {
       .list-item {
         display: flex;

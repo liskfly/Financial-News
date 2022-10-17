@@ -29,11 +29,10 @@
 import { debounce } from "lodash-es";
 import ArticleContent from './ArticleContent.vue';
 export default {
- 
   data(){
     return {
       articleId:this.$route.query.id,
-      article:[],
+      article:{},
       articleType:this.$route.query.article_type
     }
   },
@@ -45,7 +44,7 @@ export default {
       this.articleType=val
     },
     articleId(a,b){
-      if(a!=undefined&&(a!=b)){
+      if(a!=undefined&&(a!=b)&&a!=''){
          this.getArticleData();
       }
     }
@@ -57,16 +56,13 @@ export default {
   methods:{
     goBack(){
        this.$router.go(-1);
-       this.article=[]
+       this.article={}
     },
     getArticleData(){
-      // console.log(1);
-      // console.log(this.articleId);
        this.$axios
         .get(`http://api2021.cbnweek.com/v4/articles/${this.articleId}`)
         .then(({ data }) => {
           this.article = data;
-          // console.log(this.article);
         });
     }
   },

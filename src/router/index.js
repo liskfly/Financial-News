@@ -8,11 +8,12 @@ import ReadView from '../views/ReadView/ReadView'
 import AllView from '../views/ReadView/AllView/AllView.vue'
 
 
+
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView,
     meta: {
@@ -26,6 +27,38 @@ const routes = [
           showfater: false
         },
         component: () => import("../views/HomeChildren/HomeArticleView.vue"),
+      },
+      {
+        path: '/home/home-search',
+        name: 'home-search',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/HomeSearch.vue"),
+      },
+      {
+        path: '/home/home-search/tag',
+        name: 'tag',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/TagSearch.vue"),
+      },
+      {
+        path: '/home/home-search/magazine',
+        name: 'magazine',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/MagazineSearch.vue"),
+      },
+      {
+        path: '/home/home-search/singles',
+        name: 'singles',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/SinglesSearch.vue"),
       }
     ]
   },
@@ -36,14 +69,20 @@ const routes = [
     meta: {
       showfater: true
     },
+
     children: [{
       path: '/audio/search',
       name: 'search',
       meta: {
         showfater: false
       },
-      component: () => import("../components/SearchBar.vue")
+      component: () => import("../components/searches/SearchBar.vue")
+    }, {
+      path: '/audio-series',
+      name: 'audio-series',
+      component: () => import("@/components/audioseries/AudioSeriesView.vue"),
     }]
+
   },
   {
     path: '/read',
@@ -52,6 +91,7 @@ const routes = [
     meta: {
       showfater: true
     },
+
     children: [{
       path: '/read/',
       name: 'all',
@@ -84,6 +124,11 @@ const routes = [
       showfater: true
     },
   },
+  {
+    path: '/audio-detail',
+    name: 'audio-detail',
+    component: () => import("@/views/AudioDetail/AudioDetail.vue"),
+  },
 ]
 
 const router = new VueRouter({
@@ -91,5 +136,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+const routerReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function (location) {
+  return routerReplace.call(this, location).catch(error => error)
+}
 
 export default router

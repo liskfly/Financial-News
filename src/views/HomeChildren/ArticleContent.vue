@@ -19,10 +19,10 @@
     <div class="text-box">
       <div class="text">
         <div class="authors">
-          <div class="authors-img">
+          <div class="authors-img" v-if="article.authors">
             <img :src="article.authors[0].avatar" alt="authors-img" />
           </div>
-          <div class="authors-megs">
+          <div class="authors-megs" v-if="article.authors">
             <p>
               {{ article.authors[0].name }}等<span class="count">{{
                 article.authors.length
@@ -36,17 +36,21 @@
             >
           </div>
         </div>
-        <div class="normal" v-if="article.article_type=='normal'">
+        <div class="normal" v-if="article.article_type == 'normal'">
           <div class="dec" v-for="a in article.topics" :key="a.id">
             <span class="dec-color">#{{ a.name }}</span>
             <span class="summary">{{ article.summary }}</span>
           </div>
-          <div ref="textcontent" class="text-item"></div>
-          
+          <div v-html="article.content" class="text-item"></div>
         </div>
-        <div class="magazine"  v-if="article.article_type!=='normal'">
-            <div class="dec">
-            <div><span class="dec-color">#{{ article.column.name }}</span>  <span class="dec-color">#{{ article.column.parent_column.name }}</span></div>
+        <div class="magazine" v-if="article.article_type !== 'normal'">
+          <div class="dec">
+            <div v-if="article.column">
+              <span class="dec-color">#{{ article.column.name }}</span>
+              <span class="dec-color"
+                >#{{ article.column.parent_column.name }}</span
+              >
+            </div>
             <span class="summary">{{ article.summary }}</span>
           </div>
         </div>
@@ -57,24 +61,13 @@
 <script>
 export default {
   props: ["article", "articleType"],
-  updated() {
-    // console.log(this.articleType);
-    if (this.articleType !== "magazine") {
-      this.addArticle();
-    }
-  },
   computed: {
     getDate() {
       let date = new Date(this.article.display_time);
       let str = `${date.getMonth() + 1}月${date.getDate()}日`;
       return str;
     },
-  },
-  methods: {
-    addArticle() {
-      this.$refs.textcontent.innerHTML = this.article.content;
-    },
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

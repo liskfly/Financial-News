@@ -1,14 +1,16 @@
 <template>
   <div class="home">
-      <router-view />
+    <router-view />
     <div v-show="$route.meta.showfater">
       <div class="Headlines">
         <span>YiMagazine</span>
-        <img src="../../assets/img/Yg.png" />
+        <img src="../../assets/img/Yg.png" @click="gotoHomeSearch" />
       </div>
       <HomeHead :banner="banner"></HomeHead>
-
-      <div class="homo-news">
+      <dir class="news-week">
+        <NewsWeek :newsWeek="newsWeek" @sent-id="sentAudioId" />
+      </dir>
+      <div class="homo-news" @click="hide = false">
         <HomeContent :homeNews="homeNews" />
       </div>
 
@@ -26,6 +28,7 @@
 import HomeHead from "@/components/HomeHead";
 import HomeContent from "./HomeContent.vue";
 import { debounce } from "lodash-es";
+import NewsWeek from "./NewsWeek.vue";
 
 export default {
   data() {
@@ -34,17 +37,23 @@ export default {
       loading: false,
       banner: [],
       homeNews: [],
+      newsWeek: [],
     };
   },
   created() {
     this.getData = debounce(this.getData);
     this.getHomeNewsData = debounce(this.getHomeNewsData);
+    this.getNewsWeek = debounce(this.getNewsWeek);
   },
   mounted() {
     this.getData();
     this.getHomeNewsData();
+    this.getNewsWeek();
   },
   methods: {
+    gotoHomeSearch() {
+      this.$router.push("/home/home-search");
+    },
     getHomeNewsData() {
       this.page++;
       this.$axios
@@ -65,15 +74,29 @@ export default {
           this.banner = data;
         });
     },
+    getNewsWeek() {
+      this.$axios
+        .get("http://api2021.cbnweek.com/v4/first_page_infos/audioNewsWeek")
+        .then(({ data }) => {
+          // console.log(data);
+          this.newsWeek = data[0].article;
+          //  console.log( this.newsWeek);
+        });
+    },
     //下拉刷新
     loadmore() {
       this.loading = true;
       this.getHomeNewsData();
     },
+    sentAudioId(n) {
+      console.log(n);
+      this.$emit("sent-appId", n);
+    },
   },
   components: {
     HomeHead,
     HomeContent,
+    NewsWeek,
   },
 };
 </script>
@@ -99,7 +122,11 @@ export default {
       height: 18px;
     }
   }
-  .homo-news{
+  .homo-news {
+    padding: 0 3vw;
+  }
+  .news-week {
+    margin: 0;
     padding: 0 3vw;
   }
 }
