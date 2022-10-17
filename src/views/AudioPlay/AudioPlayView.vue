@@ -120,7 +120,8 @@ export default {
   watch: {
     playAudio(a) {
       this.isPlay = a;
-      if (a == true) {
+      console.log(a);
+      if (a== true) {
         this.$refs.runAnim.style.animationPlayState = "running";
       } else {
         this.$refs.runAnim.style.animationPlayState = "paused";
@@ -135,10 +136,9 @@ export default {
   },
   created() {
     this.changeLong = debounce(this.changeLong);
-    
   },
    activated(){
-    console.log(1);
+    // console.log(1);
     this.audioArr=JSON.parse(localStorage.getItem("AUDIO_DTATA_PROGRAM"))
    },
   methods: {

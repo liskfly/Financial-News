@@ -4,7 +4,7 @@
     <div v-show="$route.meta.showfater">
       <div class="Headlines">
         <span>YiMagazine</span>
-        <img src="../../assets/img/Yg.png" />
+        <img src="../../assets/img/Yg.png" @click="gotoHomeSearch" />
       </div>
       <HomeHead :banner="banner"></HomeHead>
       <dir class="news-week">
@@ -23,7 +23,6 @@
         :loading="loading"
         v-if="homeNews.length"
       />
-
     </div>
   </div>
 </template>
@@ -46,35 +45,39 @@ export default {
       newsWeek: [],
     };
   },
-  created () {
+  created() {
     this.getData = debounce(this.getData);
     this.getHomeNewsData = debounce(this.getHomeNewsData);
     this.getNewsWeek = debounce(this.getNewsWeek);
-    this.loadmore= debounce(this.loadmore);
+    this.loadmore = debounce(this.loadmore);
   },
-  mounted () {
+  mounted() {
     this.getData();
     this.getHomeNewsData();
     this.getNewsWeek();
   },
   methods: {
-    getHomeNewsData () {
-      this.page++;
-      if(this.page<5){
-        this.$axios
-        .get(`http://api2021.cbnweek.com/v4/first_page_infos?page=${this.page}`)
-        .then(({ data }) => {
-          this.homeNews.push(...data);
-          // console.log(this.homeNews);
-          this.$nextTick(() => {
-            this.loading = false;
-          });
-        })
-        .catch(() => this.$refs.loadmore.loadEnd());
-      }
-      
+    gotoHomeSearch() {
+      this.$router.push("/home/home-search");
     },
-    getData () {
+    getHomeNewsData() {
+      this.page++;
+      if (this.page < 10) {
+        this.$axios
+          .get(
+            `http://api2021.cbnweek.com/v4/first_page_infos?page=${this.page}`
+          )
+          .then(({ data }) => {
+            this.homeNews.push(...data);
+            // console.log(this.homeNews);
+            this.$nextTick(() => {
+              this.loading = false;
+            });
+          })
+          .catch(() => this.$refs.loadmore.loadEnd());
+      }
+    },
+    getData() {
       this.$axios
         .get("http://api2021.cbnweek.com/v4/banners?category=first")
         .then(({ data }) => {
@@ -89,9 +92,12 @@ export default {
         });
     },
     //下拉刷新
-    loadmore () {
-      this.loading = true;
-      this.getHomeNewsData();
+    loadmore() {
+     if(this.$route.path=='/home'){
+       this.loading = true;
+       this.getHomeNewsData();
+     }
+      
     },
     sentAudioId({ audioid, isPlay, audioType }) {
       console.log(audioid, isPlay, audioType);

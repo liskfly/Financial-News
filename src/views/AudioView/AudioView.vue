@@ -1,17 +1,14 @@
 <template>
   <div class="audio">
-    <keep-alive>
       <router-view />
-    </keep-alive>
-    <div v-show="$route.meta.showfater">
-      <div class="Headlines">
-        <span>听</span>
-        <img src="../../assets/img/Yg.png" />
-      </div>
-      <HomeHead :banner="banner"></HomeHead>
-      <BoutiqueArea :area="area"></BoutiqueArea>
-      <PopularRed :popular="popular"></PopularRed>
+    <div v-show="$route.meta.showfater" class="Headlines">
+      <span>听</span>
+      <img src="../../assets/img/Yg.png"  @click="gotoSeachBar">
+      <!-- <router-link tag="img" to="/audio/search"></router-link> -->
     </div>
+    <HomeHead v-show="$route.meta.showfater" :banner="banner"></HomeHead>
+    <BoutiqueArea v-show="$route.meta.showfater" :area="area"></BoutiqueArea>
+    <PopularRed v-show="$route.meta.showfater" :popular="popular"></PopularRed>
   </div>
 </template>
 <script>
@@ -38,6 +35,9 @@ export default {
     this.getPopular();
   },
   methods: {
+    gotoSeachBar(){
+      this.$router.push('/audio/search')
+    },
     getAudioBanner() {
       this.$axios
         .get("http://api2021.cbnweek.com/v4/audio_banners")

@@ -29,6 +29,38 @@ const routes = [
         path:'/choieBook',
         name:'choieBook',
         component: () => import("@/components/choicBook.vue"),
+      },
+      {
+        path: '/home/home-search',
+        name: 'home-search',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/HomeSearch.vue"),
+      },
+      {
+        path: '/home/home-search/tag',
+        name: 'tag',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/TagSearch.vue"),
+      },
+      {
+        path: '/home/home-search/magazine',
+        name: 'magazine',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/MagazineSearch.vue"),
+      },
+      {
+        path: '/home/home-search/singles',
+        name: 'singles',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/SinglesSearch.vue"),
       }
     ]
   },
@@ -39,13 +71,20 @@ const routes = [
     meta: {
       showfater: true
     },
-    children: [
-      {
-        path: '/audio-series',
-        name: 'audio-series',
-        component: () => import("@/components/audioseries/AudioSeriesView.vue"),
-      }
-    ]
+
+    children: [{
+      path: '/audio/search',
+      name: 'search',
+      meta: {
+        showfater: false
+      },
+      component: () => import("../components/searches/SearchBar.vue")
+    }, {
+      path: '/audio-series',
+      name: 'audio-series',
+      component: () => import("@/components/audioseries/AudioSeriesView.vue"),
+    }]
+
   },
   {
     path: '/read',
