@@ -21,13 +21,13 @@ const routes = [
     },
     children: [
       {
-        path:'/magazineData',
-        name:'magazineData',
+        path: '/magazineData',
+        name: 'magazineData',
         component: () => import("@/components/magazineData.vue"),
       },
       {
-        path:'/choieBook',
-        name:'choieBook',
+        path: '/choieBook',
+        name: 'choieBook',
         component: () => import("@/components/choicBook.vue"),
       },
       {
@@ -140,10 +140,15 @@ const routes = [
     name: 'audio-play',
     component: () => import("@/views/AudioPlay/AudioPlayView.vue"),
   },
-{
+  {
     path: '/keyword-article',
     name: 'keyword-article',
     component: () => import("@/components/KeywordArticle"),
+  },
+  {
+    path: '/subject-article',
+    name: 'subject-article',
+    component: () => import("@/views/SubjectArticle/SubjectArticle")
   }
 
 ]

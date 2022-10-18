@@ -30,11 +30,11 @@
     <ul class="newest">
       <li
         v-for="(
-          { id, title, summary, display_time, read_time }, index
+          { id, title, summary, display_time, read_time }
         ) in bookData.articles"
         :key="id"
         class="newest-list"
-        @click="goToArticle(id, index)"
+        @click="goToArticle(id)"
       >
         <span class="title">{{ title }}</span>
         <span class="summary">{{ summary }}</span>
@@ -59,12 +59,8 @@ export default {
         `/keyword-article?keyword_type=authors&keyword_id=${id}`
       );
     },
-    goToArticle(a, b) {
-      if (b == 0) {
-        this.$router.push(`/article?article_id=${a}`);
-      }else{
-        console.log("路由未完成");
-      }
+    goToArticle(a) {
+      this.$router.push(`/subject-article?subject_article_id=${a}`);
     },
   },
 };

@@ -11,31 +11,30 @@
       ></ArticleContent>
     </div>
 
-    <div class="article" v-if="article.article_type !='magazine' ">
+    <div class="article" v-if="article.probation && article.article_type == 'subject'">
       <ArticleFooter />
     </div>
-
-    <div class="magazine" v-if="article.article_type == 'magazine'">
-      <span>订阅</span>
+    <div class="magazine" v-if="!article.probation && article.article_type == 'subject'">
+      <span>{{'¥' + article.subject.price + '订阅单行本' + '《' + article.subject.name + '》'}}</span>
     </div>
   </div>
 </template>
 <script>
 import { debounce } from "lodash-es";
-import ArticleContent from "./ArticleContent.vue";
+import ArticleContent from "../../views/HomeChildren/ArticleContent.vue";
 import ArticleHeader from "../../components/ArticleHeader.vue";
 import ArticleFooter from "../../components/ArticleFooter.vue";
 export default {
   data() {
     return {
-      articleId: this.$route.query.article_id,
+      articleId: this.$route.query.subject_article_id,
       scroll:0,
       article: {},
       recommed:[]
     };
   },
   watch: {
-    "$route.query.article_id"(val) {
+    "$route.query.subject_article_id"(val) {
       this.articleId = val;
     },
 
@@ -70,7 +69,7 @@ export default {
     articleClear(){
       this.article=''
     },
-    scrollHieght(event){
+     scrollHieght(event){
       this.scroll=parseInt(event.target.scrollTop)
       // console.log(this.scroll);
     }

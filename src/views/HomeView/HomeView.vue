@@ -14,7 +14,7 @@
           :playAudio="playAudio"
         />
       </dir>
-      <div class="homo-news" @click="hide = false">
+      <div class="home-news" @click="hide = false">
         <HomeContent :homeNews="homeNews" />
       </div>
       <wd-infinite-load
@@ -133,7 +133,7 @@ export default {
       height: 18px;
     }
   }
-  .homo-news {
+  .home-news {
     padding: 0 3vw;
   }
   .news-week {

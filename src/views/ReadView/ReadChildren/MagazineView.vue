@@ -76,7 +76,7 @@ export default {
           .catch(() => this.$refs.loadmore.loadEnd());
     },
     loadmore() {
-      console.log(this.$route.path);
+      // console.log(this.$route.path);
       if (this.$route.path == "/read/magazine") {
         this.loading = true;
         this.getHomeNewsData();

@@ -69,7 +69,7 @@ export default {
   methods: {
     isstow(i) {
       this.stow[i].key = !this.stow[i].key;
-      console.log(i, this.stow);
+      // console.log(i, this.stow);
     },
      goToArticle(b){
        this.$router.push(
