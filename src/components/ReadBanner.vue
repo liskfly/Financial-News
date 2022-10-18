@@ -7,7 +7,9 @@
             <div class="swipe-img">
               <img @click="goMagazineData(item.type,item.id)" v-lazy="item.cover_url" class="cover" />
               <div v-if="item.price" class="money">¥{{item.price}}</div>
-              <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
+              <a :href="item.package_path">
+                <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
+              </a>
             </div>
             <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
             <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +

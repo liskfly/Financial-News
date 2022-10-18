@@ -59,12 +59,8 @@ export default {
         `/keyword-article?keyword_type=authors&keyword_id=${id}`
       );
     },
-    goToArticle(a, b) {
-      if (b == 0) {
-        this.$router.push(`/article?article_id=${a}`);
-      }else{
-        console.log("路由未完成");
-      }
+    goToArticle(a) {
+      this.$router.push(`/subject-article?subject_article_id=${a}`);
     },
   },
 };

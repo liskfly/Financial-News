@@ -105,6 +105,11 @@ const routes = [
     path: '/keyword-article',
     name: 'keyword-article',
     component: () => import("@/components/KeywordArticle"),
+  },
+  {
+    path:'/subject-article',
+    name:'subject-article',
+    component:() => import("@/views/SubjectArticle/SubjectArticle")
   }
 
 ]

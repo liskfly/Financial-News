@@ -50,6 +50,7 @@ export default {
       this.monthChoice = null
     },
     goChoieBook () {
+      console.log(this.typeChoice,this.yearChoice,this.monthChoice);
       if (this.typeChoice || this.yearChoice || this.monthChoice) {
         this.$router.push(
           `/choieBook?choieBook_type=${this.typeChoice}&choieBook_year=${this.yearChoice}&choieBook_month=${this.monthChoice}`

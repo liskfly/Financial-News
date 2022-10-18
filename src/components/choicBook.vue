@@ -30,6 +30,21 @@ export default {
   created () {
     this.showBook()
   },
+  activated(){
+    this.showBook()
+  }
+  ,
+  watch: {
+    "$route.query.choieBook_type" (val) {
+      this.type = val
+    },
+    "$route.query.choieBook_year" (val) {
+      this.year = val
+    },
+    "$route.query.choieBook_month" (val) {
+      this.month = val
+    }
+  },
   methods: {
     showBook () {
       if (this.type) {
@@ -53,7 +68,7 @@ export default {
     goBack () {
       this.$router.go(-1);
       this.book = [],
-      this.typeChinese = ''
+        this.typeChinese = ''
     },
     goMagazineData (id) {
       this.$router.push(
