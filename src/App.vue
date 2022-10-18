@@ -77,7 +77,7 @@ export default {
       if (this.duration != 0) {
         if (a == true && a) {
           this.audioSrc = this.audioCon[0].audio_url;
-          // this.$refs.audio.autoplay = "autoplay";
+          this.$refs.audio.autoplay = "autoplay";
           if (this.$refs.audio.src) {
             this.$refs.audio.play();
           }

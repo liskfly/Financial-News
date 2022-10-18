@@ -21,14 +21,46 @@ const routes = [
     },
     children: [
       {
-        path:'/magazineData',
-        name:'magazineData',
+        path: '/magazineData',
+        name: 'magazineData',
         component: () => import("@/components/magazineData.vue"),
       },
       {
-        path:'/choieBook',
-        name:'choieBook',
+        path: '/choieBook',
+        name: 'choieBook',
         component: () => import("@/components/choicBook.vue"),
+      },
+      {
+        path: '/home/home-search',
+        name: 'home-search',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/HomeSearch.vue"),
+      },
+      {
+        path: '/home/home-search/tag',
+        name: 'tag',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/TagSearch.vue"),
+      },
+      {
+        path: '/home/home-search/magazine',
+        name: 'magazine',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/MagazineSearch.vue"),
+      },
+      {
+        path: '/home/home-search/singles',
+        name: 'singles',
+        meta: {
+          showfater: false
+        },
+        component: () => import("../components/searches/SinglesSearch.vue"),
       }
     ]
   },
@@ -39,13 +71,20 @@ const routes = [
     meta: {
       showfater: true
     },
-    children: [
-      {
-        path: '/audio-series',
-        name: 'audio-series',
-        component: () => import("@/components/audioseries/AudioSeriesView.vue"),
-      }
-    ]
+
+    children: [{
+      path: '/audio/search',
+      name: 'search',
+      meta: {
+        showfater: false
+      },
+      component: () => import("../components/searches/SearchBar.vue")
+    }, {
+      path: '/audio-series',
+      name: 'audio-series',
+      component: () => import("@/components/audioseries/AudioSeriesView.vue"),
+    }]
+
   },
   {
     path: '/read',
@@ -101,10 +140,15 @@ const routes = [
     name: 'audio-play',
     component: () => import("@/views/AudioPlay/AudioPlayView.vue"),
   },
-{
+  {
     path: '/keyword-article',
     name: 'keyword-article',
     component: () => import("@/components/KeywordArticle"),
+  },
+  {
+    path: '/subject-article',
+    name: 'subject-article',
+    component: () => import("@/views/SubjectArticle/SubjectArticle")
   }
 
 ]

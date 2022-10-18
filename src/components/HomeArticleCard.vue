@@ -63,8 +63,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .item {
-  // display: flex;
-  // flex-direction: column;
   padding: 20px 0;
   border-bottom: 1px solid #eee;
   .text {

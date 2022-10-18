@@ -3,7 +3,12 @@
     <ReadBanner :banner="banner"></ReadBanner>
     <NewOne :book1="book1" :num="num"></NewOne>
 
-    <wd-infinite-load ref="loadmore" @loadmore="loadmore" :loading="loading" v-if="book1.length" />
+    <wd-infinite-load
+      ref="loadmore"
+      @loadmore="loadmore"
+      :loading="loading"
+      v-if="book1.length"
+    />
   </div>
 </template>
 
@@ -13,7 +18,7 @@ import NewOne from "@/components/newOne.vue";
 import { debounce } from "lodash-es";
 
 export default {
-  data () {
+  data() {
     return {
       arr: [],
       arrbook: [],
@@ -23,63 +28,66 @@ export default {
       num: [],
       arrbook1: [],
       loading: false,
-      book1: []
-    }
+      book1: [],
+    };
   },
-  created () {
+  created() {
     this.getBannerData = debounce(this.getBannerData);
     this.getHomeNewsData = debounce(this.getHomeNewsData);
   },
-  mounted () {
+  mounted() {
     this.getBannerData();
     this.getHomeNewsData();
   },
   methods: {
-    getBannerData () {
+    getBannerData() {
       this.$axios
         .get(`http://api2021.cbnweek.com/v4/magazines?year=2022&type=subject`)
         .then(({ data }) => {
           this.arr = data;
           this.arr.map(({ data }) => {
             if (data.length > 1) {
-              data.map(item => this.banner.push(item))
+              data.map((item) => this.banner.push(item));
             } else {
-              this.banner.push(data[0])
+              this.banner.push(data[0]);
             }
-          })
+          });
         });
     },
-    getHomeNewsData () {
+    getHomeNewsData() {
       this.year--;
-      this.num.push(this.year)
-      if (this.year > 2008) {
+      this.num.push(this.year);
+      // if (this.year > 2008) {
         this.$axios
-          .get(`http://api2021.cbnweek.com/v4/magazines?year=${this.year}&type=subject`)
+          .get(
+            `http://api2021.cbnweek.com/v4/magazines?year=${this.year}&type=subject`
+          )
           .then(({ data }) => {
-            this.arrbook1 = data
+            this.arrbook1 = data;
             this.arrbook1.map(({ data }) => {
               if (data.length > 1) {
-                data.map(item => this.book1.push(item))
+                data.map((item) => this.book1.push(item));
               } else {
-                this.book1.push(data[0])
+                this.book1.push(data[0]);
               }
-            })
+            });
             this.$nextTick(() => {
               this.loading = false;
             });
-
           })
           .catch(() => this.$refs.loadmore.loadEnd());
+      // }
+    },
+    loadmore() {
+      if (this.$route.path == "/read/Booklet") {
+        this.loading = true;
+        this.getHomeNewsData();
       }
     },
-    loadmore () {
-      this.loading = true;
-      this.getHomeNewsData();
-    }
   },
   components: {
     ReadBanner,
-    NewOne
-  }
-}
+    NewOne,
+  },
+};
 </script>
