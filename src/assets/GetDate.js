@@ -11,26 +11,14 @@ export function getDateMon(a) {
 }
 export const getTime = (a) => {
     let min = parseInt(a / 60);
-    min = min >9 ? min : "0" + min;
+    min = min > 9 ? min : "0" + min;
     let sec = a % 60;
-    sec = sec >9 ? sec : "0" + sec;
+    sec = sec > 9 ? sec : "0" + sec;
     return min + ":" + sec;
 }
-export const getAllDate = (a) => {
+export const getPointDate = (a) => {
     let date = new Date(a);
-    return date.toLocaleDateString().replace(/\//g, "-") + " " + date.toTimeString().substr(0, 8)
-}
-export const monthEnList = {
-    0: 'Jan',
-    1: 'Feb',
-    2: 'Mar',
-    3: 'Apr',
-    4: 'May',
-    5: 'Jun',
-    6: 'Jul',
-    7: 'Aug',
-    8: 'Sep',
-    9: 'Oct',
-    10: 'Nov',
-    11: 'Dec'
+    let str = `${date.getFullYear()}.${date.getMonth() >= 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
+        }.${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}`;
+    return str;
 }

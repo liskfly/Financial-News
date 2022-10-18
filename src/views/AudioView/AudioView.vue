@@ -1,8 +1,6 @@
 <template>
   <div class="audio">
-    <keep-alive>
       <router-view />
-    </keep-alive>
     <div v-show="$route.meta.showfater" class="Headlines">
       <span>听</span>
       <img src="../../assets/img/Yg.png"  @click="gotoSeachBar">

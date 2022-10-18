@@ -8,12 +8,15 @@
       </div>
       <HomeHead :banner="banner"></HomeHead>
       <dir class="news-week">
-        <NewsWeek :newsWeek="newsWeek" @sent-id="sentAudioId" />
+        <NewsWeek
+          :newsWeek="newsWeek"
+          @sent-appId="sentAudioId"
+          :playAudio="playAudio"
+        />
       </dir>
-      <div class="homo-news" @click="hide = false">
+      <div class="home-news" @click="hide = false">
         <HomeContent :homeNews="homeNews" />
       </div>
-
       <wd-infinite-load
         ref="loadmore"
         @loadmore="loadmore"
@@ -31,10 +34,12 @@ import { debounce } from "lodash-es";
 import NewsWeek from "./NewsWeek.vue";
 
 export default {
+  props: ["playAudio"],
   data() {
     return {
       page: 0,
       loading: false,
+      scorll: 0,
       banner: [],
       homeNews: [],
       newsWeek: [],
@@ -44,6 +49,7 @@ export default {
     this.getData = debounce(this.getData);
     this.getHomeNewsData = debounce(this.getHomeNewsData);
     this.getNewsWeek = debounce(this.getNewsWeek);
+    this.loadmore = debounce(this.loadmore);
   },
   mounted() {
     this.getData();
@@ -56,16 +62,20 @@ export default {
     },
     getHomeNewsData() {
       this.page++;
-      this.$axios
-        .get(`http://api2021.cbnweek.com/v4/first_page_infos?page=${this.page}`)
-        .then(({ data }) => {
-          this.homeNews.push(...data);
-          // console.log(this.homeNews);
-          this.$nextTick(() => {
-            this.loading = false;
-          });
-        })
-        .catch(() => this.$refs.loadmore.loadEnd());
+      if (this.page < 10) {
+        this.$axios
+          .get(
+            `http://api2021.cbnweek.com/v4/first_page_infos?page=${this.page}`
+          )
+          .then(({ data }) => {
+            this.homeNews.push(...data);
+            // console.log(this.homeNews);
+            this.$nextTick(() => {
+              this.loading = false;
+            });
+          })
+          .catch(() => this.$refs.loadmore.loadEnd());
+      }
     },
     getData() {
       this.$axios
@@ -78,19 +88,20 @@ export default {
       this.$axios
         .get("http://api2021.cbnweek.com/v4/first_page_infos/audioNewsWeek")
         .then(({ data }) => {
-          // console.log(data);
           this.newsWeek = data[0].article;
-          //  console.log( this.newsWeek);
         });
     },
     //下拉刷新
     loadmore() {
-      this.loading = true;
-      this.getHomeNewsData();
+     if(this.$route.path=='/home'){
+       this.loading = true;
+       this.getHomeNewsData();
+     }
+      
     },
-    sentAudioId(n) {
-      console.log(n);
-      this.$emit("sent-appId", n);
+    sentAudioId({ audioid, isPlay, audioType }) {
+      console.log(audioid, isPlay, audioType);
+      this.$emit("sent-appId", { audioid, isPlay, audioType });
     },
   },
   components: {
@@ -102,7 +113,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
-  overflow: visible;
+  // overflow: auto;
   .Headlines {
     width: 100vw;
     padding: 30px 10px 20px 30vw;
@@ -122,7 +133,7 @@ export default {
       height: 18px;
     }
   }
-  .homo-news {
+  .home-news {
     padding: 0 3vw;
   }
   .news-week {

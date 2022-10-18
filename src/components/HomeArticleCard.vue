@@ -17,7 +17,7 @@
     <div class="item-bottom">
       <span
         class="text"
-        :class="{ active: newsData.article_type != 'normal' }"
+        :class="{ active: newsData.article_type == 'magazine' }"
         >{{ article_type }}</span
       >
       <div class="icon">
@@ -55,7 +55,7 @@ export default {
   methods:{
      goToHomeArticle(){
       this.$router.push(
-        `${this.$route.path}/home-article?article_type=${this.articleType}&id=${this.id}`
+        `/article?article_id=${this.id}`
       )
     }
   }
@@ -63,8 +63,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .item {
-  // display: flex;
-  // flex-direction: column;
   padding: 20px 0;
   border-bottom: 1px solid #eee;
   .text {

@@ -13,7 +13,7 @@
     <div class="detail" v-if="detail">
       <div class="detail-title">
         <p>{{ detail.title }}</p>
-        <span>{{ detail.display_time }}</span>
+        <span>{{ showDate(detail.display_time) }}</span>
       </div>
       <div class="detail-audio"></div>
       <div class="detail-text" v-html="detail.content"></div>
@@ -33,27 +33,22 @@
       </div>
     </div>
     <div class="detail-bottom">
-    
-        <div class="commit">
-          <input type="text" placeholder="我的观点..." />
-        </div>
-        <div class="btn">
-          <i class="comments"></i>
-          <i class="collection"></i>
-          <i class="like"></i>
-          <i class="share"></i>
-        </div>
-    
+     <ArticleFooter/>
     </div>
   </div>
 </template>
 <script>
+import { getDate } from "@/utils/GetDate";
 import { debounce } from "lodash-es";
+import ArticleFooter from '../../components/ArticleFooter.vue';
 export default {
+  components: { ArticleFooter },
+  props: ["playAudio"],
   data() {
     return {
       detail: {},
       detailId: this.$route.query.detail_id,
+      chooseAudio: true,
     };
   },
   watch: {
@@ -64,6 +59,9 @@ export default {
       if (a != undefined && a != b && a !== "") {
         this.getAetail();
       }
+    },
+    playAudio(a) {
+      this.chooseAudio = a;
     },
   },
   created() {
@@ -77,12 +75,19 @@ export default {
       this.detail = "";
     },
     getAetail() {
+      this.chooseAudio = true;
+      
       this.$axios
         .get(`http://api2021.cbnweek.com:80/v4/articles/${this.detailId}`)
         .then(({ data }) => {
           this.detail = data;
+          this.$emit("sent-appId", { audioid: this.detailId, isPlay: this.chooseAudio,audioType:this.detail.audio_id });
+          // console.log(this.detail);
         });
     },
+    showDate(a){
+      return  getDate(a)
+    }
   },
 };
 </script>
@@ -196,63 +201,6 @@ export default {
           color: #888;
         }
       }
-    }
-  }
-  .detail-bottom{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    padding: 10px 3vw;
-    border-top: 1px solid #eee;
-    width: 100%;
-    height: 45px;
-    background-color: #fff;
-    z-index: 999;
-    
-    .commit{
-       display: flex;
-        align-items: center;
-        border-radius: 999px;
-        width:50vw;
-        height: 100%;
-        background-color: #eee;
-        input{
-            margin-left: 10px;
-            width: 30vw;
-            border: none;
-            outline: none;
-            background-color: #eee;
-        }
-    }
-    .btn{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width:35vw ;
-        height:100% ;
-        i{
-            width: 18px;
-            height: 18px;
-        }
-        .comments{
-            background: url(../../assets/img/lr.png) no-repeat;
-            background-size: 100% 100%;
-        }
-         .collection{
-            background: url(../../assets/img/Ip1.png) no-repeat;
-             background-size: 100% 100%;
-        }
-         .like{
-            background: url(../../assets/img/gQ.png) no-repeat;
-             background-size: 100% 100%;
-        }
-         .share{
-            background: url(../../assets/img/4Y.png) no-repeat;
-             background-size: 100% 100%;
-        }
     }
   }
 }

@@ -80,7 +80,7 @@ export default {
           `http://api2021.cbnweek.com:80/v4/article_alls?page=1&per=${this.num}&type=android`
         )
         .then(({ data }) => {
-          console.log(data);
+          // console.log(data);
           this.audio = data;
           data.forEach((item) => {
             this.list.push({
@@ -96,7 +96,7 @@ export default {
           `http://api2021.cbnweek.com/v4/pg_search_documents?page=1&per=20&query=${this.val}&query_type=audio&type=android`
         )
         .then(({ data }) => {
-          console.log(data);
+          // console.log(data);
           this.list = [];
           data.forEach((item) => {
             this.list.push({
