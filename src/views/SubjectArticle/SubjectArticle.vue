@@ -1,7 +1,7 @@
 <template>
-  <div class="home-article" v-if="article">
+  <div class="home-article" v-if="article" @scroll="scrollHieght">
     <div class="header">
-      <ArticleHeader @article-clear="articleClear" />
+      <ArticleHeader @article-clear="articleClear" :scroll="scroll"/>
     </div>
 
     <div>
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       articleId: this.$route.query.subject_article_id,
+      scroll:0,
       article: {},
       recommed:[]
     };
@@ -67,6 +68,9 @@ export default {
     },
     articleClear(){
       this.article=''
+    },
+     scrollHieght(event){
+      this.scroll=parseInt(event.target.scrollTop)
     }
   },
   components: { ArticleContent, ArticleHeader, ArticleFooter },

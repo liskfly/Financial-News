@@ -30,11 +30,11 @@
     <ul class="newest">
       <li
         v-for="(
-          { id, title, summary, display_time, read_time }, index
+          { id, title, summary, display_time, read_time }
         ) in bookData.articles"
         :key="id"
         class="newest-list"
-        @click="goToArticle(id, index)"
+        @click="goToArticle(id)"
       >
         <span class="title">{{ title }}</span>
         <span class="summary">{{ summary }}</span>

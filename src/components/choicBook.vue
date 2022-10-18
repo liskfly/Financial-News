@@ -68,7 +68,7 @@ export default {
     goBack () {
       this.$router.go(-1);
       this.book = [],
-        this.typeChinese = ''
+      this.typeChinese = ''
     },
     goMagazineData (id) {
       this.$router.push(

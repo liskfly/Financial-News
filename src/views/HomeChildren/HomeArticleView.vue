@@ -1,7 +1,7 @@
 <template>
-  <div class="home-article" v-if="article">
+  <div class="home-article" v-if="article" @scroll="scrollHieght">
     <div class="header">
-      <ArticleHeader @article-clear="articleClear" />
+      <ArticleHeader @article-clear="articleClear" :scroll="scroll"/>
     </div>
 
     <div>
@@ -14,6 +14,7 @@
     <div class="article" v-if="article.article_type !='magazine' ">
       <ArticleFooter />
     </div>
+
     <div class="magazine" v-if="article.article_type == 'magazine'">
       <span>订阅</span>
     </div>
@@ -28,6 +29,7 @@ export default {
   data() {
     return {
       articleId: this.$route.query.article_id,
+      scroll:0,
       article: {},
       recommed:[]
     };
@@ -67,6 +69,10 @@ export default {
     },
     articleClear(){
       this.article=''
+    },
+    scrollHieght(event){
+      this.scroll=parseInt(event.target.scrollTop)
+      // console.log(this.scroll);
     }
   },
   components: { ArticleContent, ArticleHeader, ArticleFooter },

@@ -43,8 +43,8 @@
             >
           </div>
           <span class="summary">{{ article.summary }}</span>
-          <div v-html="article.content" class="text-item" v-if="article.probation || article.article_type == 'normal'"></div>
-          <div class="text-bottom" v-if="article.probation || article.article_type == 'normal'">
+          <div v-html="article.content" class="text-item" v-if="article.probation || article.article_type == 'normal'||article.article_type == 'theme'"></div>
+          <div class="text-bottom" v-if="article.probation || article.article_type == 'normal'||article.article_type == 'theme'">
             <div class="text-ascription">
               <span>本文版权归本人开发者所有</span>
               <span>未经许可不得转载或翻译</span>
@@ -60,9 +60,9 @@
               <span>{{ article.favorite_times }}</span>
             </div>
           </div>
-          <div class="recommend" v-if="recommed && article.probation  || article.article_type == 'normal'" >
+          <div class="recommend" v-if="recommed && article.probation  || article.article_type == 'normal'||article.article_type == 'theme'" >
             <p class="recommend-text">相关文章</p>
-            <div class="recommend-box" v-for="(r,index) in recommed" :key="index" @click="goToArticle(r.article_type,r.id)">
+            <div class="recommend-box" v-for="(r,index) in recommed" :key="index" @click="goToArticle(r.id)">
               <div
                 class="recommed-img"
                 :style="{ backgroundImage: 'url(' + r.cover_url + ')' }"
@@ -158,7 +158,7 @@ export default {
     goColumnsArticle(id) {
       this.$router.push(`/keyword-article?keyword_type=columns&keyword_id=${id}`);
     },
-    goToArticle(a,b){
+    goToArticle(b){
        this.$router.push(
         `/article?article_id=${b}`
       )
