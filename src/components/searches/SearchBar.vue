@@ -18,21 +18,6 @@
       </div>
     </div>
 
-    <div v-show="!val" class="list-container">
-      <div class="list">
-        <div v-for="(item, index) in list" :key="index" class="list-item">
-          <img :src="item.img" />
-          <div>{{ item.text }}</div>
-        </div>
-      </div>
-      <wd-infinite-load
-        finished-text
-        ref="loadmore"
-        @loadmore="loadmore"
-        :loading="loading"
-      ></wd-infinite-load>
-    </div>
-
     <div v-show="val" class="list-container">
       <div class="list">
         <div v-for="(item, index) in list" :key="index" class="list-item">
@@ -40,6 +25,16 @@
           <div>{{ item.text }}</div>
         </div>
       </div>
+    </div>
+
+    <div v-show="!val" class="list-container">
+      <div class="list">
+        <div v-for="(item, index) in list" :key="index" class="list-item">
+          <img :src="item.img" />
+          <div>{{ item.text }}</div>
+        </div>
+      </div>
+
       <wd-infinite-load
         finished-text
         ref="loadmore"
@@ -59,7 +54,7 @@ export default {
       list: [],
       num: 10,
       loading: false,
-      time: 2,
+      time: 3,
     };
   },
   created() {
@@ -71,6 +66,7 @@ export default {
     },
     deleteVal() {
       this.val = null;
+      this.list = [];
       this.audio.forEach((item) => {
         this.list.push({
           img: item.cover_url,
@@ -114,21 +110,24 @@ export default {
       this.loading = true;
 
       if (this.time) {
+        this.num += 10;
         setTimeout(() => {
-          let list = [];
-          this.num += 15;
-          for (let i = this.num - 15; i < this.num; i++) {
-            this.audio.forEach((item) => {
-              list.push({
-                img: item.cover_url,
-                text: item.title,
+          this.$axios
+            .get(
+              `http://api2021.cbnweek.com:80/v4/article_alls?page=1&per=${this.num}&type=android`
+            )
+            .then(({ data }) => {
+              this.audio = data;
+              this.list = [];
+              data.forEach((item) => {
+                this.list.push({
+                  img: item.cover_url,
+                  text: item.title,
+                });
               });
+              this.loading = false;
+              this.time--;
             });
-          }
-          this.list = this.list.concat(list);
-          this.loading = false;
-          // 模拟请求，请求3次，3次结束后设置加载结束
-          this.time--;
         }, 1000);
       } else {
         this.$refs.loadmore.loadEnd();

@@ -107,6 +107,7 @@
           <div>暂无搜索结果，换个关键字试试吧</div>
         </div>
       </div>
+      
       <wd-infinite-load
         finished-text
         ref="loadmore"

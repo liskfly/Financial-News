@@ -47,9 +47,9 @@ export default {
     return {
       singles: [],
       val: null,
-      num: 20,
+      num: 10,
       loading: false,
-      time: 2,
+      time: 3,
     };
   },
   created() {
@@ -71,7 +71,6 @@ export default {
           `http://api2021.cbnweek.com:80/v4/theme_subjects?page=1&per=${this.num}`
         )
         .then(({ data }) => {
-          // console.log(data);
           this.singles = data;
         });
     },
@@ -79,19 +78,17 @@ export default {
       this.loading = true;
 
       if (this.time) {
+        this.num += 10;
         setTimeout(() => {
-          let list = [];
-          this.num += 15;
-          for (let i = this.num - 15; i < this.num; i++) {
-            this.singles.forEach((item) => {
-              list.push(item);
+          this.$axios
+            .get(
+              `http://api2021.cbnweek.com:80/v4/theme_subjects?page=1&per=${this.num}`
+            )
+            .then(({ data }) => {
+              this.singles = data;
+              this.loading = false;
+              this.time--;
             });
-          }
-          console.log(this.singles);
-          this.singles = this.singles.concat(list);
-          this.loading = false;
-          // 模拟请求，请求3次，3次结束后设置加载结束
-          this.time--;
         }, 1000);
       } else {
         this.$refs.loadmore.loadEnd();
