@@ -149,6 +149,11 @@ const routes = [
     path: '/subject-article',
     name: 'subject-article',
     component: () => import("@/views/SubjectArticle/SubjectArticle")
+  },
+  {
+    path:'/download-list',
+    name:'download-list',
+    component:() => import("@/components/download-list/DownloadList.vue")
   }
 
 ]
