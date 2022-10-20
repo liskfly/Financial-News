@@ -18,10 +18,36 @@
       </div>
     </div>
 
-    <div class="list-container">
+    <div class="list-container" v-show="val">
       <div class="list">
-        <div v-for="(item, index) in singles" :key="index" class="list-item">
-          <img :src="item.cover_url" />
+        <div
+          v-for="(item, index) in list"
+          :key="index"
+          class="list-item"
+          @click="goMagazineData(item.content.type, item.content.id)"
+        >
+          <i class="subject-icon"><img :src="item.content.cover_url" /></i>
+          <div class="text">
+            <span>{{ item.content.name }}</span>
+          </div>
+        </div>
+
+        <div class="empty" v-show="!list.length">
+          <i><img src="../../assets/img/3T.png" /></i>
+          <div>暂无搜索结果，换个关键字试试吧</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-container" v-show="!val">
+      <div class="list">
+        <div
+          v-for="(item, index) in singles"
+          :key="index"
+          class="list-item"
+          @click="goMagazineData(item.type, item.id)"
+        >
+          <i class="subject-icon"><img :src="item.cover_url" /></i>
           <div class="text">
             <span>{{ item.name }}</span>
             <span>{{ item.articles_count }}篇文章</span>
@@ -31,6 +57,7 @@
           </div>
         </div>
       </div>
+
       <wd-infinite-load
         finished-text
         ref="loadmore"
@@ -46,6 +73,7 @@ export default {
   data() {
     return {
       singles: [],
+      list: [],
       val: null,
       num: 10,
       loading: false,
@@ -56,8 +84,21 @@ export default {
     this.getSinglesDate();
   },
   methods: {
+    goMagazineData(type, id) {
+      type = type.slice(0, 1).toUpperCase() + type.slice(1).toLowerCase();
+      this.$router.push(
+        `/magazineData?&magazineData_type=${type}&magazineData_id=${id}`
+      );
+    },
     keyDown() {
-      console.log(this.val);
+      this.$axios
+        .get(
+          `https://api2021.cbnweek.com/v4/pg_search_documents?page=1&per=${this.num}&query=${this.val}&query_type=subject&type=android`
+        )
+        .then(({ data }) => {
+          this.list = data;
+          console.log(this.list);
+        });
     },
     deleteVal() {
       this.val = null;
@@ -72,6 +113,7 @@ export default {
         )
         .then(({ data }) => {
           this.singles = data;
+          console.log(data);
         });
     },
     loadmore() {
@@ -156,11 +198,15 @@ export default {
         display: flex;
         margin: 1.5vh 0;
         position: relative;
-        img {
+
+        .subject-icon {
           width: 20vw;
           height: 25vw;
-          border-radius: 1vw;
-          margin-right: 3vw;
+          margin-right: 2vw;
+          img {
+            width: 20vw;
+            height: 25vw;
+          }
         }
         .text {
           display: flex;
@@ -188,6 +234,22 @@ export default {
           color: white;
           line-height: 2.2vh;
           font-size: 12px;
+        }
+      }
+
+      .empty {
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        i {
+          margin-left: 28vw;
+          img {
+            height: 40vw;
+            width: 40vw;
+          }
+        }
+        div {
+          margin-left: 20vw;
         }
       }
     }

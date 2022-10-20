@@ -18,7 +18,26 @@
       </div>
     </div>
 
-    <div class="tag-list">
+    <div class="tag-list" v-show="val">
+      <wd-cell-group border v-for="item in list" :key="item.content.id">
+        <wd-cell
+          class="text"
+          :title="'/' + item.content.name"
+          center
+          :clickable="true"
+          @click="goColumnsArticle(item.content.id)"
+        >
+          <wd-button size="small">关注</wd-button>
+        </wd-cell>
+      </wd-cell-group>
+
+      <div class="empty" v-show="status">
+        <i><img src="../../assets/img/3T.png" /></i>
+        <div>暂无搜索结果，换个关键字试试吧</div>
+      </div>
+    </div>
+
+    <div class="tag-list" v-show="!val">
       <wd-cell-group border v-for="item in magazine" :key="item.id">
         <wd-cell :title="item.name">
           <i class="cell-icon" slot="icon">
@@ -31,6 +50,8 @@
           :key="index"
           :title="'/' + list.name"
           center
+          :clickable="true"
+          @click="goColumnsArticle(list.id)"
         >
           <wd-button size="small">关注</wd-button>
         </wd-cell>
@@ -45,17 +66,45 @@ export default {
     return {
       magazine: [],
       val: null,
+      list: [],
+      status: false,
     };
   },
   created() {
     this.getMagazineDate();
   },
   methods: {
+    goColumnsArticle(id) {
+      if (id == 931) {
+        return;
+      } else {
+        this.$router.push(
+          `/keyword-article?keyword_type=columns&keyword_id=${id}`
+        );
+      }
+    },
     keyDown() {
       console.log(this.val);
+
+      this.$axios
+        .get(
+          `https://api2021.cbnweek.com/v4/pg_search_documents?page=1&per=20&query=${this.val}&query_type=column&type=android`
+        )
+        .then(({ data }) => {
+          console.log(data);
+          this.list = data;
+          console.log(this.list);
+          if (this.list.length == 0) {
+            this.status = true;
+          } else {
+            this.status = false;
+          }
+        });
     },
     deleteVal() {
       this.val = null;
+      this.list = [];
+      this.status = false;
     },
     goBack() {
       this.$router.go(-1);
@@ -140,6 +189,21 @@ export default {
     }
     div {
       font-weight: 800;
+    }
+    .empty {
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      i {
+        margin-left: 28vw;
+        img {
+          height: 40vw;
+          width: 40vw;
+        }
+      }
+      div {
+        margin-left: 20vw;
+      }
     }
   }
 }

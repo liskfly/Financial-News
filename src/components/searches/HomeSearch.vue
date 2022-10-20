@@ -35,11 +35,20 @@
 
     <div class="list-container" v-show="!show">
       <div class="list" v-if="active === 'article'">
-        <div v-for="(item, index) in infoArr" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in infoArr"
+          :key="index"
+          class="list-item"
+          @click="
+            goToHomeArticle(item.content.article_type, item.searchable_id)
+          "
+        >
           <i class="icon"> <img :src="item.content.cover_url" /></i>
+
           <div class="text">
             <span>{{ item.content.title }}</span>
           </div>
+
           <div v-show="item.content.price" class="price">
             {{ item.content.price }}
           </div>
@@ -52,7 +61,12 @@
       </div>
 
       <div class="list" v-if="active === 'topic'">
-        <div v-for="(item, index) in infoArr" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in infoArr"
+          :key="index"
+          class="list-item-topic"
+          @click="goKeyWordArticle(item.content.id)"
+        >
           <span>#{{ item.content.name }}</span>
           <wd-button size="small">关注</wd-button>
         </div>
@@ -64,11 +78,18 @@
       </div>
 
       <div class="list" v-if="active === 'column'">
-        <div v-for="(item, index) in infoArr" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in infoArr"
+          :key="index"
+          class="list-item-column"
+          @click="goColumnsArticle(item.content.id)"
+        >
           <i v-show="item.content.icon" class="column-icon">
             <img :src="item.content.icon"
           /></i>
-          <i v-show="!item.content.icon" class="column-icon"><span>/</span></i>
+          <i v-show="!item.content.icon" class="column-icon"
+            ><span class="slash">/</span></i
+          >
           <div class="text">
             <span>{{ item.content.name }}</span>
           </div>
@@ -81,7 +102,12 @@
       </div>
 
       <div class="list" v-if="active === 'subject'">
-        <div v-for="(item, index) in infoArr" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in infoArr"
+          :key="index"
+          class="list-item"
+          @click="goMagazineData(item.content.type, item.content.id)"
+        >
           <i class="subject-icon"> <img :src="item.content.cover_url" /></i>
           <div class="text">
             <span>{{ item.content.name }}</span>
@@ -95,7 +121,12 @@
       </div>
 
       <div class="list" v-if="active === 'audio'">
-        <div v-for="(item, index) in infoArr" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in infoArr"
+          :key="index"
+          class="list-item"
+          @click="goToAudioDetail(item.content.id)"
+        >
           <i class="audio-icon"> <img :src="item.content.cover_url" /></i>
           <div class="text">
             <span>{{ item.content.title }}</span>
@@ -107,7 +138,7 @@
           <div>暂无搜索结果，换个关键字试试吧</div>
         </div>
       </div>
-      
+
       <wd-infinite-load
         finished-text
         ref="loadmore"
@@ -207,9 +238,39 @@ export default {
     };
   },
   created() {
-    this.getHotInfo();
+    // this.getHotInfo();
   },
   methods: {
+    goToAudioDetail(a) {
+      this.$router.push(`/audio-detail?detail_id=${a}`);
+    },
+    goColumnsArticle(id) {
+      if (id == 931) {
+        return;
+      } else {
+        this.$router.push(
+          `/keyword-article?keyword_type=columns&keyword_id=${id}`
+        );
+      }
+    },
+    goKeyWordArticle(id) {
+      this.$router.push(
+        `/keyword-article?keyword_type=topics&keyword_id=${id}`
+      );
+    },
+    goToHomeArticle(type, id) {
+      if (type == "voice") {
+        this.$router.push(`/audio-detail?detail_id=${id}`);
+      } else if (type == "normal" || type == "magazine") {
+        this.$router.push(`/article?article_id=${id}`);
+      }
+    },
+    goMagazineData(type, id) {
+      type = type.slice(0, 1).toUpperCase() + type.slice(1).toLowerCase();
+      this.$router.push(
+        `/magazineData?&magazineData_type=${type}&magazineData_id=${id}`
+      );
+    },
     deleteVal() {
       this.val = null;
       this.show = true;
@@ -222,7 +283,7 @@ export default {
           `https://api2021.cbnweek.com/v4/pg_search_documents?page=1&per=${this.num}&query=${this.val}&query_type=${this.active}&type=android`
         )
         .then(({ data }) => {
-          console.log(data, typeof data);
+          // console.log(data, typeof data);
           this.infoArr = data;
         });
     },
@@ -310,6 +371,7 @@ export default {
         background-color: rgba(119, 119, 119, 0.1);
         border-radius: 10vw;
         display: flex;
+
         i {
           margin-left: 4vw;
           margin-top: 0.7vh;
@@ -319,11 +381,15 @@ export default {
             height: 5vw;
           }
         }
+
         .search-bar {
           outline: 0;
           border: 0;
           width: 75%;
           background-color: rgba(119, 119, 119, 0);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
       .back {
@@ -339,7 +405,7 @@ export default {
     }
 
     .type {
-      margin-top: 1vh;
+      margin-top: 2vh;
       margin-bottom: 1vh;
       display: flex;
       justify-content: space-around;
@@ -352,7 +418,7 @@ export default {
   }
 
   .list-container {
-    margin-top: 12.5vh;
+    margin-top: 13.5vh;
     margin-left: 2vw;
     .list {
       .list-item {
@@ -369,14 +435,7 @@ export default {
             border-radius: 1vw;
           }
         }
-        .column-icon {
-          width: 5vw;
-          height: 5vw;
-          img {
-            width: 5vw;
-            height: 5vw;
-          }
-        }
+
         .subject-icon {
           width: 20vw;
           height: 25vw;
@@ -400,9 +459,17 @@ export default {
         }
         .text {
           display: flex;
-          flex-direction: column;
+          // flex-direction: column;
           span {
+            width: 60vw;
             font-weight: 600;
+            height: 60%;
+            // word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+            overflow: hidden;
           }
         }
         .price {
@@ -421,6 +488,33 @@ export default {
         }
       }
 
+      .list-item-topic {
+        display: flex;
+        justify-content: space-around;
+        span {
+          line-height: 4.2vh;
+        }
+      }
+
+      .list-item-column {
+        display: flex;
+        margin-bottom: 1.3vh;
+        margin-left: 2vw;
+        .column-icon {
+          width: 5vw;
+          height: 5vw;
+          img {
+            width: 5vw;
+            height: 5vw;
+          }
+        }
+        .slash{
+          margin-left: 3.8vw;
+        }
+        span {
+          height: 100%;
+        }
+      }
       .empty {
         width: 100vw;
         display: flex;

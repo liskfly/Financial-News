@@ -20,18 +20,33 @@
 
     <div v-show="val" class="list-container">
       <div class="list">
-        <div v-for="(item, index) in list" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in list"
+          :key="index"
+          class="list-item"
+          @click="goToAudioDetail(item.id)"
+        >
           <img :src="item.img" />
-          <div>{{ item.text }}</div>
+          <div class="text">{{ item.text }}</div>
+        </div>
+
+        <div class="empty" v-show="!list.length">
+          <i><img src="../../assets/img/3T.png" /></i>
+          <div>暂无搜索结果，换个关键字试试吧</div>
         </div>
       </div>
     </div>
 
     <div v-show="!val" class="list-container">
       <div class="list">
-        <div v-for="(item, index) in list" :key="index" class="list-item">
+        <div
+          v-for="(item, index) in list"
+          :key="index"
+          class="list-item"
+          @click="goToAudioDetail(item.id)"
+        >
           <img :src="item.img" />
-          <div>{{ item.text }}</div>
+          <div class="text">{{ item.text }}</div>
         </div>
       </div>
 
@@ -61,6 +76,9 @@ export default {
     this.getAudioData();
   },
   methods: {
+    goToAudioDetail(a) {
+      this.$router.push(`/audio-detail?detail_id=${a}`);
+    },
     goBack() {
       this.$router.go(-1);
     },
@@ -71,6 +89,7 @@ export default {
         this.list.push({
           img: item.cover_url,
           text: item.title,
+          id: item.id,
         });
       });
     },
@@ -80,12 +99,12 @@ export default {
           `http://api2021.cbnweek.com:80/v4/article_alls?page=1&per=${this.num}&type=android`
         )
         .then(({ data }) => {
-          // console.log(data);
           this.audio = data;
           data.forEach((item) => {
             this.list.push({
               img: item.cover_url,
               text: item.title,
+              id: item.id,
             });
           });
         });
@@ -96,12 +115,12 @@ export default {
           `http://api2021.cbnweek.com/v4/pg_search_documents?page=1&per=20&query=${this.val}&query_type=audio&type=android`
         )
         .then(({ data }) => {
-          // console.log(data);
           this.list = [];
           data.forEach((item) => {
             this.list.push({
               img: item.content.cover_url,
               text: item.content.title,
+              id: item.content.id,
             });
           });
         });
@@ -123,6 +142,7 @@ export default {
                 this.list.push({
                   img: item.cover_url,
                   text: item.title,
+                  id: item.id,
                 });
               });
               this.loading = false;
@@ -198,6 +218,33 @@ export default {
           height: 20vw;
           border-radius: 1.5vw;
           margin-right: 2vw;
+        }
+        .text {
+          width: 70vw;
+          font-weight: 600;
+          height: 60%;
+          // word-break: break-all;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+          overflow: hidden;
+        }
+      }
+
+      .empty {
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        i {
+          margin-left: 28vw;
+          img {
+            height: 40vw;
+            width: 40vw;
+          }
+        }
+        div {
+          margin-left: 20vw;
         }
       }
     }
