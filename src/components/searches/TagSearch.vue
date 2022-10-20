@@ -18,13 +18,35 @@
       </div>
     </div>
 
-    <div class="tag-list">
+    <div class="tag-list" v-show="val">
       <wd-cell-group border>
         <wd-cell
           v-for="(item, index) in tag"
           :key="index"
           :title="item.text"
           center
+          :clickable="true"
+          @click="goKeyWordArticle(item.id)"
+        >
+          <wd-button size="small">关注</wd-button>
+        </wd-cell>
+      </wd-cell-group>
+
+      <div class="empty" v-show="!tag.length">
+        <i><img src="../../assets/img/3T.png" /></i>
+        <div>暂无搜索结果，换个关键字试试吧</div>
+      </div>
+    </div>
+
+    <div class="tag-list" v-show="!val">
+      <wd-cell-group border>
+        <wd-cell
+          v-for="(item, index) in tag"
+          :key="index"
+          :title="item.text"
+          center
+          :clickable="true"
+          @click="goKeyWordArticle(item.id)"
         >
           <wd-button size="small">关注</wd-button>
         </wd-cell>
@@ -38,6 +60,7 @@ export default {
   data() {
     return {
       tag: [],
+      list: [],
       val: null,
     };
   },
@@ -45,11 +68,40 @@ export default {
     this.getTagDate();
   },
   methods: {
+    goKeyWordArticle(id) {
+      this.$router.push(
+        `/keyword-article?keyword_type=topics&keyword_id=${id}`
+      );
+    },
     keyDown() {
-      console.log(this.val);
+      this.$axios
+        .get(
+          `http://api2021.cbnweek.com:80/v4/pg_search_documents?page=1&per=23&query=${this.val}&query_type=topic&type=android`
+        )
+        .then(({ data }) => {
+          this.tag = [];
+          data.forEach((item) => {
+            this.tag.push({
+              text: "#" + item.content.name,
+              id: item.content.id,
+            });
+          });
+
+          console.log(this.tag);
+        });
     },
     deleteVal() {
       this.val = null;
+      this.tag = [];
+
+      this.list.forEach((item) => {
+        this.tag.push({
+          text: "#" + item.content.name,
+          id: item.content.id,
+        });
+      });
+
+      console.log(this.list);
     },
     goBack() {
       this.$router.go(-1);
@@ -60,13 +112,13 @@ export default {
           "http://api2021.cbnweek.com:80/v4/pg_search_documents?page=1&per=23&query=&query_type=topic&type=android"
         )
         .then(({ data }) => {
-          console.log(data);
+          this.list = data;
           data.forEach((item) => {
             this.tag.push({
               text: "#" + item.content.name,
+              id: item.content.id,
             });
           });
-          console.log(this.tag);
         });
     },
   },
@@ -125,6 +177,21 @@ export default {
 
   .tag-list {
     margin-top: 12.5vh;
+    .empty {
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      i {
+        margin-left: 28vw;
+        img {
+          height: 40vw;
+          width: 40vw;
+        }
+      }
+      div {
+        margin-left: 20vw;
+      }
+    }
   }
 }
 </style>
