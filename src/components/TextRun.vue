@@ -1,7 +1,7 @@
 <template>
   <div class="text-run">
     <div class="text-list" :class="{ animate: animateUp }">
-      <p v-for="(t, i) in textList" :key="i" >
+      <p v-for="(t, i) in textList" :key="i">
         {{ t }}
       </p>
     </div>

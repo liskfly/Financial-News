@@ -43,7 +43,7 @@
           <div class="frequency">
             <div>{{ keyword[0].topics[0].articles_count + "篇文章" }}</div>
             <div class="line">|</div>
-            <div>{{ "人关注" }}</div>
+            <div>{{ "354人关注" }}</div>
           </div>
         </div>
         <wd-button size="small" class="follow">关注</wd-button>

@@ -12,7 +12,7 @@
     </div>
 
     <div class="article" v-if="article.article_type !='magazine' ">
-      <ArticleFooter />
+      <ArticleFooter :article="article"/>
     </div>
 
     <div class="magazine" v-if="article.article_type == 'magazine'">

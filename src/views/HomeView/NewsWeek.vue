@@ -77,7 +77,8 @@ export default {
       // this.$emit('sent-id',b, this.playChoose)
     },
     newsText(a) {
-      let textArr = a.split("\n");
+      let textArr = a.split("\n")
+      textArr=textArr.filter(t=>t!='')
       return textArr;
     },
     day(a, b) {

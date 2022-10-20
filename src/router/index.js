@@ -149,19 +149,16 @@ const routes = [
     path: '/subject-article',
     name: 'subject-article',
     component: () => import("@/views/SubjectArticle/SubjectArticle")
+  },
+  {
+    path: '/comment',
+    name: 'comment',
+    component: () => import("@/views/Comments/CommentView.vue")
   }
-
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
-  },
   base: process.env.BASE_URL,
   routes
 })

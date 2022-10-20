@@ -4,13 +4,24 @@
         <input type="text" placeholder="我的观点..." />
       </div>
       <div class="btn">
-        <i class="comments"></i>
+        <i class="comments" @click.stop="goToComment"></i>
         <i class="collection"></i>
         <i class="like"></i>
         <i class="share"></i>
+        <div class="comment-cout" v-if="article.comment_times>0">{{article.comment_times}}</div>
       </div>
     </div>
 </template>
+<script>
+export default {
+  props:['article'],
+  methods:{
+    goToComment(){
+      this.$router.push(`/comment?comment_id=${this.article.id}`)
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .article-footer {
     display: flex;
@@ -42,6 +53,7 @@
       }
     }
     .btn {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -66,6 +78,19 @@
       .share {
         background: url(@/assets/img/4Y.png) no-repeat;
         background-size: 100% 100%;
+      }
+      .comment-cout{
+        position: absolute;
+        top: -7px;
+        left: 16px;
+        border-radius: 999px;
+        width: 13px;
+        height: 13px;
+        font-size: 12px;
+        color: #fff;
+        text-align: center;
+        line-height: 13px;
+        background-color: red;
       }
     }
   }

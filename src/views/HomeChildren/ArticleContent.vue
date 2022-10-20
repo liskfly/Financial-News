@@ -88,29 +88,30 @@
             </div>
             <span class="summary">{{ article.summary }}</span>
           </div>
-          <!-- <div
+          <div
             class="comment"
             v-for="c in article.editor_choice_comments"
             :key="c.user.id"
           >
             <p>评论</p>
-            <div class="comment-box" v-for="b in bestComment" :key="b.content">
+            <div class="comment-box">
               <div class="comment-user">
-                <img :src="b.user.avatar" alt="tx" />
+                <img src="https://files.cbnweek.com/a36d0b46bcc0f32dda03ec72c449d108_264x264" alt="tx" />
                 <div class="comment-user-dec">
-                  <span class="comment-user-name">{{ b.user.nickname }}</span>
+                  <span class="comment-user-name">{{ c.user.nickname }}</span>
                   <span class="comment-time">{{
-                    commentTime(b.display_time)
+                    commentTime(c.display_time)
                   }}</span>
                 </div>
               </div>
-              <div class="comment-text">{{ b.content }}</div>
+              <div class="comment-text">{{ c.content }}</div>
               <div class="comment-like">
-                <span>{{ b.like_times }} <i></i></span>
+                <span>{{ c.like_times }} <i></i></span>
               </div>
             </div>
-            <p class="more">查看更多 >></p>
-          </div> -->
+           
+          </div> 
+          <p class="more">查看更多 >></p>
         </div>
       </div>
     </div>
@@ -122,7 +123,7 @@ export default {
   props: ["article",  "recommed"],
   data() {
     return {
-      bestComment: {},
+      // bestComment: {},
     };
   },
   computed: {
@@ -138,17 +139,17 @@ export default {
     // }
   },
   methods: {
-    getBestComment() {
-      console.log(this.article.id);
-      this.$axios
-        .get(
-          `http://api2021.cbnweek.com:80/v4/articles/${this.article.id}/best_comments?order=newest&page=1&per=2`
-        )
-        .then(({ data }) => {
-          this.bestComment = data;
-          // console.log(this.bestComment);
-        });
-    },
+    // getBestComment() {
+    //   console.log(this.article.id);
+    //   this.$axios
+    //     .get(
+    //       `http://api2021.cbnweek.com:80/v4/articles/${this.article.id}/best_comments?order=newest&page=1&per=2`
+    //     )
+    //     .then(({ data }) => {
+    //       this.bestComment = data;
+    //       // console.log(this.bestComment);
+    //     });
+    // },
     commentTime(a) {
       return getAllDate(a);
     },
@@ -388,6 +389,8 @@ export default {
         }
       }
       .more {
+        margin-top: 20px;
+        float: right;
         font-size: 12px;
         color: #0090f0;
       }

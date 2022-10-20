@@ -4,10 +4,8 @@
       <router-view
         @sent-appId="sentAudioId"
         @sent-play="sentPlay"
-        @set-audioTime="setAudioTime"
+     
         :playAudio="playAudio"
-        :curr="curr"
-        :audioCon="audioCon"
       />
     </keep-alive>
     <div class="audio-box" v-show="audioSrc" @click="goToAudioPlay">
@@ -22,6 +20,20 @@
       ></div>
     </div>
 
+    <van-popup v-model="showPlay" position="bottom" :style="{ height: '100%' }">
+      <AudioPlay
+        @sent-appId="sentAudioId"
+        @sent-play="sentPlay"
+        @set-audioTime="setAudioTime"
+        @hide-play="hidePlay"
+        @set-speed="setSpeed"
+        :playAudio="playAudio"
+        :curr="curr"
+        :speed="speed"
+        :audioCon="audioCon"
+        :audioArr="audioArr"
+      />
+    </van-popup>
     <div class="tab-bar" v-show="$route.meta.showfater">
       <router-link tag="div" class="tab-bar-item" to="/home">
         <div class="item home"></div>
@@ -43,6 +55,7 @@
   </div>
 </template>
 <script>
+import AudioPlay from "./views/AudioPlay/AudioPlay.vue";
 export default {
   data() {
     return {
@@ -51,7 +64,9 @@ export default {
       duration: 0,
       isData: false,
       playAudio: false,
+      showPlay: false,
       curr: 0,
+      speed:1,
       audioType: 1,
       audioArr: [],
       audioCon: [],
@@ -59,7 +74,7 @@ export default {
   },
   watch: {
     audioType(a, b) {
-      console.log(a, b);
+      // console.log(a, b);
       if (a != b) {
         this.isData = false;
         this.getAudioData();
@@ -76,7 +91,7 @@ export default {
     playAudio(a) {
       if (this.duration != 0) {
         if (a == true && a) {
-          this.audioSrc = this.audioCon[0].audio_url;
+          // this.audioSrc = this.audioCon[0].audio_url;
           this.$refs.audio.autoplay = "autoplay";
           if (this.$refs.audio.src) {
             this.$refs.audio.play();
@@ -88,8 +103,8 @@ export default {
       }
     },
   },
-  created(){
-    this. getAudioData()
+  created() {
+    this.getAudioData();
   },
   methods: {
     sentAudioId({ audioid, isPlay, audioType }) {
@@ -101,6 +116,9 @@ export default {
       this.audioId = audioid;
       this.playAudio = isPlay;
     },
+    hidePlay(a) {
+      this.showPlay = a;
+    },
     getAudioData() {
       let audioArrDataStr = [];
       localStorage.setItem("AUDIO_DTATA_PROGRAM", audioArrDataStr);
@@ -110,16 +128,18 @@ export default {
         )
         .then(({ data }) => {
           this.isData = true;
-          this.audioArr = data[0].articles;
+          // console.log(data);
+          this.audioArr = data;
           let audioArrDataStr = JSON.stringify(this.audioArr);
           localStorage.setItem("AUDIO_DTATA_PROGRAM", audioArrDataStr);
-          if(this.audioId){
+          if (this.audioId) {
             this.getNewAudio();
           }
         });
     },
     getNewAudio() {
-      this.audioCon = this.audioArr.filter((t) => {
+      this.speed=1
+      this.audioCon = this.audioArr[0].articles.filter((t) => {
         return t.id == this.audioId;
       });
       this.audioSrc = this.audioCon[0].audio_url;
@@ -127,7 +147,10 @@ export default {
       this.$nextTick(() => {
         this.$refs.audio.load();
         if (this.playAudio == true) {
-          this.$refs.audio.autoplay = "autoplay";
+          setTimeout(() => {
+            this.$refs.audio.autoplay = "autoplay";
+             this.$refs.audio.playbackRate=this.speed
+          }, 500);
         }
       });
     },
@@ -139,7 +162,8 @@ export default {
       this.playAudio = !this.playAudio;
     },
     goToAudioPlay() {
-      this.$router.push(`/audio-play`);
+       this.showPlay=true
+      // this.$router.push(`/audio-play`);
     },
     getCurr() {
       this.curr = parseInt(this.$refs.audio.currentTime);
@@ -147,7 +171,14 @@ export default {
     setAudioTime(a) {
       this.$refs.audio.currentTime = a;
     },
+    setSpeed(a){
+      this.speed=a
+       this.$refs.audio.playbackRate=a
+    }
   },
+  components:{
+    AudioPlay
+  }
 };
 </script>
 <style lang="scss" scoped>

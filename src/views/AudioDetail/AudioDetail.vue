@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="detail-bottom">
-     <ArticleFooter/>
+     <ArticleFooter :article="detail"/>
     </div>
   </div>
 </template>
@@ -99,6 +99,8 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: auto;
+  // background-color: #fff;
+  // z-index: 2019;
   .header {
     display: flex;
     align-items: center;

@@ -28,19 +28,21 @@
             v-model="showSpeed"
             position="bottom"
             closeable
+            round 
             :style="{ height: '30%' }"
           >
-            <div class="progm-box" v-if="speedArr">
+            <div class="speed-box">
               <div
                 v-for="s in speedArr"
                 :key="s.value"
-                @click="showSpeed = !showSpeed"
+                :class="{speedc:speed==s.value}"
+                @click="chooseSpeed(s.value)"
               >
                 {{ s.text }}
               </div>
             </div>
           </van-popup>
-          <!-- <div class="speed-count"></div> -->
+          <div class="speed-count">{{speed+'x'}}</div>
         </div>
         <div class="control">
           <van-slider
@@ -132,6 +134,8 @@ export default {
     playAudio: Boolean,
     audioCon: Array,
     curr: Number,
+    audioArr: Array,
+    speed:Number
   },
   data() {
     return {
@@ -140,9 +144,9 @@ export default {
         { text: "0.75倍", value: 0.75 },
         { text: "正常", value: 1 },
         { text: "1.5倍", value: 1.5 },
-       { text: "2倍", value: 2 }
+        { text: "2倍", value: 2 },
       ],
-      audioArr: JSON.parse(localStorage.getItem("AUDIO_DTATA_PROGRAM")),
+      // audioArr: JSON.parse(localStorage.getItem("AUDIO_DTATA_PROGRAM")),
       showAllAudio: false,
       showSpeed: false,
       value: this.curr,
@@ -165,25 +169,23 @@ export default {
         this.showProgress();
       }
     },
+    showAudioPlay(a) {
+      this.hidePlay = a;
+    },
   },
   created() {
     this.changeLong = debounce(this.changeLong);
   },
-  activated() {
-    // console.log(1);
-    this.audioArr = JSON.parse(localStorage.getItem("AUDIO_DTATA_PROGRAM"));
-  },
   methods: {
     goBack() {
-      this.$router.go(-1);
+      let hidePlay = false;
+      this.$emit("hide-play", hidePlay);
     },
     sentPlay(a) {
       this.isPlay = !this.isPlay;
-      // console.log(a,this.isPlay);
       this.$emit("sent-play", { audioid: a, isPlay: this.isPlay });
     },
     preAudio(id) {
-      // console.log(id,this.audioArr);
       let a = this.audioArr[0].articles.findIndex((t) => t.id == id);
       if (a == 0) {
         alert("这是第一个Audio");
@@ -202,11 +204,14 @@ export default {
       }
     },
     goToAudioDetail(a) {
-      this.$router.push(`/audio-detail?detail_id=${a}`);
+      let hidePlay = false;
+      this.$emit("hide-play", hidePlay);
+      if (this.$route.query.detail_id != a) {
+        this.$router.push(`/audio-detail?detail_id=${a}`);
+      }
     },
     showProgress() {
       this.progress = (this.value / this.audioCon[0].audio_duration) * 100;
-      // console.log(this.progress);
     },
     changeLong() {
       let ct = (this.progress * this.audioCon[0].audio_duration) / 100;
@@ -223,6 +228,11 @@ export default {
     showDate(a) {
       return getTime(a);
     },
+    chooseSpeed(a){
+      console.log(a);
+      this.showSpeed = !this.showSpeed
+      this.$emit('set-speed',a)
+    }
   },
 };
 </script>
@@ -289,6 +299,7 @@ export default {
         }
       }
       .download-speed {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -296,6 +307,30 @@ export default {
         img {
           width: 24px;
           height: 20px;
+        }
+        .speed-box{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+          margin-top: 52px;
+        }
+        .speedc{
+          color: #0090ff;
+          font-weight: bold;
+        }
+        .speed-count{
+          position: absolute;
+          top: -4px;
+          left: 220px;
+          padding: 1px;
+          border-radius: 999px;
+          color: #fff;
+          font-size: 12px;
+          font-weight: bold;
+          line-height: 14px;
+          background-color: red;
         }
       }
       .control {
