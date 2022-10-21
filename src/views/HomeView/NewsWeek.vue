@@ -23,7 +23,11 @@
             </div>
           </div>
         </div>
-        <div class="audio-img" :class="{playmg:playChoose}" @click="sentAudioId(n.id,n.audioserie_id)"></div>
+        <div
+          class="audio-img"
+          :class="{ playmg: playChoose }"
+          @click="sentAudioId(n.id, n.audioserie_id)"
+        ></div>
       </div>
       <div class="news-box">
         <div class="new-img">
@@ -42,18 +46,18 @@ import { getDate, monthEnList } from "@/utils/GetDate";
 
 export default {
   components: { TextRun },
-  props: ["newsWeek", "hide",'playAudio'],
+  props: ["newsWeek", "hide", "playAudio"],
   data() {
     return {
       dateTime: "",
       showWeek: false,
-      playChoose:this.playAudio
+      playChoose: this.playAudio,
     };
   },
-  watch:{
-    playAudio(a){
-      this.playChoose=a
-    }
+  watch: {
+    playAudio(a) {
+      this.playChoose = a;
+    },
   },
   computed: {
     todayNews() {
@@ -77,8 +81,8 @@ export default {
       // this.$emit('sent-id',b, this.playChoose)
     },
     newsText(a) {
-      let textArr = a.split("\n")
-      textArr=textArr.filter(t=>t!='')
+      let textArr = a.split("\n");
+      textArr = textArr.filter((t) => t != "");
       return textArr;
     },
     day(a, b) {
@@ -91,12 +95,15 @@ export default {
         return str;
       }
     },
-  sentAudioId(a,b){
-    // console.log(a,b);
-    this.playChoose=!this.playChoose
-    this.$emit("sent-appId", { audioid: a, isPlay: this.playChoose,audioType:b });
-  }
-
+    sentAudioId(a, b) {
+      // console.log(a,b);
+      this.playChoose = !this.playChoose;
+      this.$emit("sent-appId", {
+        audioid: a,
+        isPlay: this.playChoose,
+        audioType: b,
+      });
+    },
   },
 };
 </script>
@@ -143,17 +150,15 @@ export default {
         }
       }
     }
-    .audio-img{
+    .audio-img {
       width: 16px;
       height: 16px;
       background-image: url(@/assets/img/FM.png);
       background-size: contain;
-     
     }
-     .playmg{
-         background-image: url(@/assets/img/gX.png);
-      }
-    
+    .playmg {
+      background-image: url(@/assets/img/gX.png);
+    }
   }
   .news-box {
     display: flex;

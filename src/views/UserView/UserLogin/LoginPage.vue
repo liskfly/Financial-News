@@ -30,9 +30,9 @@
       <button @click="register">注册</button>
     </div>
     <div class="choicepage">
-      <span class="islogin" @click="change(1)">登录</span>
+      <span :class="pageShow == 1 ? 'check' : ''" class="normal-left" @click="change(1)">登录</span>
       <span>|</span>
-      <span class="isregister" @click="change(2)">注册</span>
+      <span :class="pageShow == 2 ? 'check' : ''" class="normal-right" @click="change(2)">注册</span>
     </div>
   </div>
 </template>
@@ -99,9 +99,8 @@ export default {
 
 
       if (res == true) {
-        // this.$router.push(`/user?&Login_username=${this.userName}`);
-         this.$router.go(-1)
-        window.sessionStorage.setItem('token', JSON.stringify({ user: this.userName, psd: this.userPsd }))
+        this.$router.push(`/user?&Login_username=${this.userName}`);
+        window.localStorage.setItem('token', JSON.stringify({ user: this.userName, psd: this.userPsd }))
         alert("成功");
       } else {
         alert("请注册账号");
@@ -196,11 +195,53 @@ export default {
 
   .choicepage {
     display: flex;
-    width: 50vw;
+    // width: 50vw;
     justify-content: space-between;
     font-size: 14px;
     color: #fff;
     margin-top: 40vh;
+    align-items: center;
+
+    .normal-left {
+      padding: 5px 10px;
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 1px;
+        background-color: white;
+        bottom: 0;
+        right: 0;
+        transition: width ease-in-out 0.3s;
+      }
+    }
+
+    .normal-right {
+      padding: 5px 10px;
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 1px;
+        background-color: white;
+        bottom: 0;
+        left: 0;
+        transition: width ease-in-out 0.3s;
+      }
+    }
+
+    .check {
+      position: relative;
+
+      &:after {
+        width: 100%;
+        transition: width ease-in-out 0.3s;
+      }
+    }
   }
 }
 </style>
