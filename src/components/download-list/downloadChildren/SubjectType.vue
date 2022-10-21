@@ -1,17 +1,29 @@
 <template>
   <div class="subject">
     <ul class="subject-list" v-if="list[0]">
-      <li v-for="({id,cover_url,name,display_time},index) in list" :key="id" @click="goMagazineData(id,ischeck,index)"
-        :style='{marginRight: (index + 1) %3 != 0 ? "3vw":""}'>
-        <img :src="cover_url">
-        <span class="name">{{name}}</span>
-        <span class="time">{{getTime(display_time)}}</span>
-        <button class="check" type="button" v-show="!checkarr[index].check && ischeck"></button>
-        <button class="isCheck" type="button" v-show="checkarr[index].check && ischeck"></button>
+      <li
+        v-for="({ id, cover_url, name, display_time }, index) in list"
+        :key="id"
+        @click="goMagazineData(id, ischeck, index)"
+        :style="{ marginRight: (index + 1) % 3 != 0 ? '3vw' : '' }"
+      >
+        <img :src="cover_url" />
+        <span class="name">{{ name }}</span>
+        <span class="time">{{ getTime(display_time) }}</span>
+        <button
+          class="check"
+          type="button"
+          v-show="!checkarr[index].check && ischeck"
+        ></button>
+        <button
+          class="isCheck"
+          type="button"
+          v-show="checkarr[index].check && ischeck"
+        ></button>
       </li>
     </ul>
     <div class="none" v-if="!list[0]">
-      <img src="../../../assets/img/3T.png">
+      <img src="../../../assets/img/3T.png" />
       <span>暂无离线数据</span>
     </div>
     <div class="arrangement" v-if="ischeck">
@@ -29,63 +41,67 @@
 import { getPointDate } from "@/assets/GetDate";
 export default {
   props: ["ischeck"],
-  data () {
+  data() {
     return {
       list: [],
       checkarr: [],
       allcheck: true,
       checknum: 0,
-      tranarr:[]
-    }
+      tranarr: [],
+    };
   },
-  created () {
-    this.getSubjectData()
+  created() {
+    this.getSubjectData();
   },
   methods: {
-    getTime (a) {
+    getTime(a) {
       return getPointDate(a);
     },
-    getSubjectData () {
-      this.list = JSON.parse(localStorage.getItem("SAVE_SUBJECT"))
-      this.list.forEach(() => {
-        this.checkarr.push({ check: false })
-      })
+    getSubjectData() {
+      this.list = JSON.parse(localStorage.getItem("SAVE_SUBJECT"));
+      if (this.list[0]) {
+        this.list.forEach(() => {
+          this.checkarr.push({ check: false });
+        });
+      }
     },
-    goMagazineData (id, ischeck, index) {
+    goMagazineData(id, ischeck, index) {
       if (!ischeck) {
         this.$router.push(
           `/magazineData?&magazineData_type=Theme&magazineData_id=${id}`
-        )
+        );
       } else {
-        this.checkarr[index].check = !this.checkarr[index].check
+        this.checkarr[index].check = !this.checkarr[index].check;
         this.checkarr.forEach(({ check }) => {
-          this.checknum = check == true ? this.checknum + 1 : this.checknum
-        })
-        this.allcheck = this.checknum == (this.checkarr.length) ? false : true
+          this.checknum = check == true ? this.checknum + 1 : this.checknum;
+        });
+        this.allcheck = this.checknum == this.checkarr.length ? false : true;
       }
-      this.checknum = 0
+      this.checknum = 0;
     },
-    all () {
+    all() {
       if (!this.allcheck) {
         this.checkarr = this.checkarr.map(() => {
-          this.allcheck = true
-          return { check: false }
-        })
+          this.allcheck = true;
+          return { check: false };
+        });
       } else {
         this.checkarr = this.checkarr.map(() => {
-          this.allcheck = false
-          return { check: true }
-        })
+          this.allcheck = false;
+          return { check: true };
+        });
       }
     },
-    remove () {
-      console.log(this.list,this.checkarr);
-      this.list = this.list.filter((t,index) => this.checkarr[index].check == false)
-      this.tranarr = JSON.stringify(this.list)
-      window.localStorage.setItem('SAVE_SUBJECT', this.tranarr)
-    }
-  }
-}
+    remove() {
+      console.log(this.list, this.checkarr);
+      this.list = this.list.filter(
+        (t, index) => this.checkarr[index].check == false
+      );
+      this.tranarr = JSON.stringify(this.list);
+      window.localStorage.setItem("SAVE_SUBJECT", this.tranarr);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
