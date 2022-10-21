@@ -102,7 +102,7 @@ const routes = [
       }
     }, {
       path: '/read/magazine',
-      name: 'magazine',
+      name: 'magazine-view',
       component: () => import("../views/ReadView/ReadChildren/MagazineView.vue"),
       meta: {
         showfater: true
@@ -153,9 +153,29 @@ const routes = [
   {
     path: '/download-list',
     name: 'download-list',
-    component: () => import("@/components/download-list/DownloadList.vue")
+    component: () => import("@/components/download-list/DownloadList.vue"),
+    children:[{
+      path:'/download-list',
+      name:'magazine-type',
+      component:() => import("@/components/download-list/downloadChildren/MagazineType.vue")
+    },
+    {
+      path:'/download-list/subject-type',
+      name:'subject-type',
+      component:() => import("@/components/download-list/downloadChildren/SubjectType.vue")
+    },
+    {
+      path:'/download-list/audio-type',
+      name:'audio-type',
+      component:() => import("@/components/download-list/downloadChildren/AudioType.vue")
+    }
+  ]
+  },
+  {
+    path:'/login',
+    name:'login',
+    component:() => import("@/views/UserView/UserLogin/LoginPage.vue")
   }
-
 ]
 
 const router = new VueRouter({

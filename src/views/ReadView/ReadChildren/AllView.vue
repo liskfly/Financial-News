@@ -77,7 +77,7 @@ export default {
       // }
     },
     loadmore() {
-      if (this.$route.path == "/read/") {
+      if (this.$route.path == "/read") {
         this.loading = true;
         this.getHomeNewsData();
       }

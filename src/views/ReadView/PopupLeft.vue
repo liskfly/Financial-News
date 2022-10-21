@@ -18,7 +18,7 @@
           :class="monthChoice == (index + 1) ? 'choice-true':'choice-f'">{{index + 1}}</button>
       </div>
       <div class="flex">
-        <wd-button @click="goChoieBook" size="small">确定</wd-button>
+        <wd-button @click="goChoieBook" size="small" position="bottom">确定</wd-button>
         <wd-button @click="clear" type="info" size="small" plain style="color:#999999">重置</wd-button>
       </div>
     </div>
@@ -50,6 +50,8 @@ export default {
       this.monthChoice = null
     },
     goChoieBook () {
+      let a = false
+      this.$emit('show-left',a)
       console.log(this.typeChoice,this.yearChoice,this.monthChoice);
       if (this.typeChoice || this.yearChoice || this.monthChoice) {
         this.$router.push(
