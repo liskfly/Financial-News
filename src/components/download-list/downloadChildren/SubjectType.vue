@@ -47,8 +47,8 @@ export default {
       checkarr: [],
       allcheck: true,
       checknum: 0,
-      tranarr: [],
-    };
+      tranarr: []
+    }
   },
   created() {
     this.getSubjectData();
@@ -57,12 +57,13 @@ export default {
     getTime(a) {
       return getPointDate(a);
     },
-    getSubjectData() {
-      this.list = JSON.parse(localStorage.getItem("SAVE_SUBJECT"));
+    getSubjectData () {
+
+      this.list = JSON.parse(localStorage.getItem("SAVE_SUBJECT"))
       if (this.list[0]) {
         this.list.forEach(() => {
-          this.checkarr.push({ check: false });
-        });
+          this.checkarr.push({ check: false })
+        })
       }
     },
     goMagazineData(id, ischeck, index) {
@@ -92,16 +93,16 @@ export default {
         });
       }
     },
-    remove() {
+
+    remove () {
       console.log(this.list, this.checkarr);
-      this.list = this.list.filter(
-        (t, index) => this.checkarr[index].check == false
-      );
-      this.tranarr = JSON.stringify(this.list);
-      window.localStorage.setItem("SAVE_SUBJECT", this.tranarr);
-    },
-  },
-};
+      this.list = this.list.filter((t, index) => this.checkarr[index].check == false)
+      this.tranarr = JSON.stringify(this.list)
+      window.localStorage.setItem('SAVE_SUBJECT', this.tranarr)
+    }
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>

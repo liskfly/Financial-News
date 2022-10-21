@@ -121,7 +121,7 @@ export default {
     }
   },
   created () {
-      let name = JSON.parse(localStorage.getItem("token"))
+      let name = JSON.parse(sessionStorage.getItem("token"))
       this.username = name ? name.user : ''
   },
   watch:{
@@ -130,6 +130,10 @@ export default {
         this.name = val
       }
     }
+  },
+  activated() {
+    let name = JSON.parse(sessionStorage.getItem("token"))
+    this.username = name ? name.user : ''
   },
   methods: {
     login () {
