@@ -4,12 +4,11 @@
       <router-view
         @sent-appId="sentAudioId"
         @sent-play="sentPlay"
-     
         :playAudio="playAudio"
       />
     </keep-alive>
     <div class="audio-box" v-show="audioSrc" @click="goToAudioPlay">
-      <audio :src="audioSrc" ref="audio" @timeupdate="getCurr" autoplay></audio>
+      <audio :src="audioSrc" ref="audio"  @timeupdate="getCurr" autoplay></audio>
       <img src="@/assets/img/Zg.png" alt="sh" @click.stop="clearAudio" />
       <p v-for="a in audioCon" :key="a.title">{{ a.title }}</p>
       <i></i>

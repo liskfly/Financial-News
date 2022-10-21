@@ -136,11 +136,6 @@ const routes = [
     component: () => import("@/views/AudioDetail/AudioDetail.vue"),
   },
   {
-    path: '/audio-play',
-    name: 'audio-play',
-    component: () => import("@/views/AudioPlay/AudioPlayView.vue"),
-  },
-  {
     path: '/keyword-article',
     name: 'keyword-article',
     component: () => import("@/components/KeywordArticle"),
@@ -149,11 +144,6 @@ const routes = [
     path: '/subject-article',
     name: 'subject-article',
     component: () => import("@/views/SubjectArticle/SubjectArticle")
-  },
-  {
-    path: '/comment',
-    name: 'comment',
-    component: () => import("@/views/Comments/CommentView.vue")
   }
 ]
 

@@ -7,8 +7,18 @@
       <div class="audio-box">
         <div class="head">
           <img src="@/assets/img/KB.png" alt="goback" @click="goBack" />
-          <img src="@/assets/img/35.png" alt="share" />
+          <img
+            src="@/assets/img/35.png"
+            alt="share"
+            @click.stop="showShare = true"
+          />
         </div>
+        <van-share-sheet
+          v-model="showShare"
+          title="立即分享给好友"
+          :options="shareOptions"
+          @select="onSelect"
+        />
         <div class="audio-title">
           <p>{{ audioCon[0].title }}</p>
         </div>
@@ -28,21 +38,21 @@
             v-model="showSpeed"
             position="bottom"
             closeable
-            round 
+            round
             :style="{ height: '30%' }"
           >
             <div class="speed-box">
               <div
                 v-for="s in speedArr"
                 :key="s.value"
-                :class="{speedc:speed==s.value}"
+                :class="{ speedc: speed == s.value }"
                 @click="chooseSpeed(s.value)"
               >
                 {{ s.text }}
               </div>
             </div>
           </van-popup>
-          <div class="speed-count">{{speed+'x'}}</div>
+          <div class="speed-count">{{ speed + "x" }}</div>
         </div>
         <div class="control">
           <van-slider
@@ -129,13 +139,14 @@
 <script>
 import { getTime } from "@/utils/GetDate";
 import { debounce } from "lodash-es";
+import { options } from "@/utils/ShareShowData";
 export default {
   props: {
     playAudio: Boolean,
     audioCon: Array,
     curr: Number,
     audioArr: Array,
-    speed:Number
+    speed: Number,
   },
   data() {
     return {
@@ -146,6 +157,8 @@ export default {
         { text: "1.5倍", value: 1.5 },
         { text: "2倍", value: 2 },
       ],
+      showShare: false,
+      shareOptions: options,
       // audioArr: JSON.parse(localStorage.getItem("AUDIO_DTATA_PROGRAM")),
       showAllAudio: false,
       showSpeed: false,
@@ -228,11 +241,14 @@ export default {
     showDate(a) {
       return getTime(a);
     },
-    chooseSpeed(a){
+    chooseSpeed(a) {
       console.log(a);
-      this.showSpeed = !this.showSpeed
-      this.$emit('set-speed',a)
-    }
+      this.showSpeed = !this.showSpeed;
+      this.$emit("set-speed", a);
+    },
+    onSelect() {
+      this.showShare = false;
+    },
   },
 };
 </script>
@@ -308,7 +324,7 @@ export default {
           width: 24px;
           height: 20px;
         }
-        .speed-box{
+        .speed-box {
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -316,11 +332,11 @@ export default {
           gap: 15px;
           margin-top: 52px;
         }
-        .speedc{
+        .speedc {
           color: #0090ff;
           font-weight: bold;
         }
-        .speed-count{
+        .speed-count {
           position: absolute;
           top: -4px;
           left: 220px;

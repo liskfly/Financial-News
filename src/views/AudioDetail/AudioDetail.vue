@@ -8,12 +8,16 @@
         @click="goBack"
       />
       <span>{{ detail.audio_title }}</span>
-      <img src="../../assets/img/OE.png" alt="更多" class="gd" />
+      <img
+        src="../../assets/img/OE.png"
+        alt="更多"
+        class="gd"
+      />
     </div>
     <div class="detail" v-if="detail">
       <div class="detail-title">
         <p>{{ detail.title }}</p>
-        <span>{{ showDate(detail.display_time) }}</span>
+        <span v-if="detail.display_time">{{ showDate(detail.display_time) }}</span>
       </div>
       <div class="detail-audio"></div>
       <div class="detail-text" v-html="detail.content"></div>
@@ -33,14 +37,14 @@
       </div>
     </div>
     <div class="detail-bottom">
-     <ArticleFooter :article="detail"/>
+      <ArticleFooter :article="detail" />
     </div>
   </div>
 </template>
 <script>
 import { getDate } from "@/utils/GetDate";
 import { debounce } from "lodash-es";
-import ArticleFooter from '../../components/ArticleFooter.vue';
+import ArticleFooter from "../../components/ArticleFooter.vue";
 export default {
   components: { ArticleFooter },
   props: ["playAudio"],
@@ -76,18 +80,22 @@ export default {
     },
     getAetail() {
       this.chooseAudio = true;
-      
+
       this.$axios
         .get(`http://api2021.cbnweek.com:80/v4/articles/${this.detailId}`)
         .then(({ data }) => {
           this.detail = data;
-          this.$emit("sent-appId", { audioid: this.detailId, isPlay: this.chooseAudio,audioType:this.detail.audio_id });
+          this.$emit("sent-appId", {
+            audioid: this.detailId,
+            isPlay: this.chooseAudio,
+            audioType: this.detail.audio_id,
+          });
           // console.log(this.detail);
         });
     },
-    showDate(a){
-      return  getDate(a)
-    }
+    showDate(a) {
+      return getDate(a);
+    },
   },
 };
 </script>

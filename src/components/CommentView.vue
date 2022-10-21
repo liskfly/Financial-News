@@ -2,7 +2,7 @@
   <div class="comment-view">
     <div class="header">
       <img
-        src="../../assets/img/P4.png"
+        src="../assets/img/P4.png"
         alt="返回"
         class="back"
         @click="goBack"
@@ -37,34 +37,37 @@
 <script>
 import { getAllDate } from "@/utils/GetDate";
 export default {
+  props:['commentId'],
   data() {
     return {
-      commentId: this.$route.query.comment_id,
+      id:this.commentId,
       commentArr: [],
       str: "",
     };
   },
-  watch: {
-    "$route.query.comment_id"(val) {
-      this.commentId = val;
-    },
-    commentId(a, b) {
-      if (a != b && a) {
-        this.goCommentList();
-      }
-    },
+ watch:{
+  commentId(a){
+    this.id=a
   },
+  id(a,b){
+    if(a!=b&&a){
+       this.goCommentList();
+    }
+  }
+ },
   created() {
     this.goCommentList();
   },
   methods: {
     goBack() {
-      this.$router.go(-1);
+      let a=false
+      this.$emit('show-comment',a)
+      // this.$router.go(-1);
     },
     goCommentList() {
       this.$axios
         .get(
-          `http://api2021.cbnweek.com:80/v4/articles/${this.commentId}/comments?order=newest&page=1&per=20`
+          `http://api2021.cbnweek.com:80/v4/articles/${this.id}/comments?order=newest&page=1&per=20`
         )
         .then(({ data }) => {
           this.commentArr = data;
@@ -100,12 +103,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .comment-view {
-  position: fixed;
-  left: 0;
-  top: 0;
   padding: 0 3vw;
   width: 100vw;
   height: 100vh;
+  background-color: #fff;
   overflow: auto;
   .header {
     display: flex;
