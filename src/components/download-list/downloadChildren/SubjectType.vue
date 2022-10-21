@@ -35,7 +35,7 @@ export default {
       checkarr: [],
       allcheck: true,
       checknum: 0,
-      tranarr:[]
+      tranarr: []
     }
   },
   created () {
@@ -46,10 +46,14 @@ export default {
       return getPointDate(a);
     },
     getSubjectData () {
+
       this.list = JSON.parse(localStorage.getItem("SAVE_SUBJECT"))
-      this.list.forEach(() => {
-        this.checkarr.push({ check: false })
-      })
+      if (this.list[0]) {
+        this.list.forEach(() => {
+          this.checkarr.push({ check: false })
+        })
+      }
+
     },
     goMagazineData (id, ischeck, index) {
       if (!ischeck) {
@@ -79,8 +83,8 @@ export default {
       }
     },
     remove () {
-      console.log(this.list,this.checkarr);
-      this.list = this.list.filter((t,index) => this.checkarr[index].check == false)
+      console.log(this.list, this.checkarr);
+      this.list = this.list.filter((t, index) => this.checkarr[index].check == false)
       this.tranarr = JSON.stringify(this.list)
       window.localStorage.setItem('SAVE_SUBJECT', this.tranarr)
     }
