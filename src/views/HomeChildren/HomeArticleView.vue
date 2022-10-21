@@ -1,9 +1,10 @@
 <template>
   <div class="home-article" v-if="article" @scroll="scrollHieght">
+    
     <div class="header">
       <ArticleHeader @article-clear="articleClear" :scroll="scroll"/>
     </div>
-
+    <!-- <van-loading color="#1989fa" v-show="pageLoading"/> -->
     <div>
       <ArticleContent
         :article="article"
@@ -58,6 +59,7 @@ export default {
         .get(`http://api2021.cbnweek.com/v4/articles/${this.articleId}`)
         .then(({ data }) => {
           this.article = data;
+          // this.pageLoading=false
         });
     },
     getArticleRecommend(){

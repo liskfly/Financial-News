@@ -126,7 +126,6 @@ export default {
         .get(`https://api2021.cbnweek.com/v4/${this.type}//${this.bookId}/${this.suffix}`)
         .then(({ data }) => {
           this.bookData = data
-          // console.log(this.bookData);
           if (this.type != 'Magazine') {
             this.time = getDate(this.bookData.display_time)
           }

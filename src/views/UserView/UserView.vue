@@ -11,7 +11,9 @@
 
     <div class="header">
       <i class="image"><img src="../../assets/img/Gh.png" /></i>
-      <span class="text">点击登录</span>
+      <span class="text" @click="login" v-show="!username && !name">点击登录</span>
+      <wd-button type="text" class="text" v-show="username || name"
+       @click="confirm">{{name ? name:username}}</wd-button>
       <div class="information">
         <wd-icon class="info-dec" name="edit-outline"></wd-icon>
         <span class="info-dec">资料</span>
@@ -111,11 +113,39 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       value: false,
-    };
+      username: '',
+      name:this.$route.query.Login_username
+    }
   },
+  created () {
+      let name = JSON.parse(localStorage.getItem("token"))
+      this.username = name ? name.user : ''
+  },
+  watch:{
+    "$route.query.Login_username" (val) {
+      if (val != undefined) {
+        this.name = val
+      }
+    }
+  },
+  methods: {
+    login () {
+      this.$router.push(
+        `/login`
+      )
+    },
+    confirm(){
+      this.$messageBox.confirm('是否注销', '提示').then(() => {
+        window.sessionStorage.removeItem('token')
+        this.username = ''
+        this.name = ''
+        this.$messageBox.alert('注销成功')
+      })
+    }
+  }
 };
 </script>
 
@@ -146,9 +176,10 @@ export default {
     .text {
       display: block;
       flex: 0 0 25vw;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       margin-left: 3vw;
+      color: black;
     }
     .information {
       display: flex;

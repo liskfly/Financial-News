@@ -24,7 +24,7 @@ export default {
   methods:{
     goToAudioSeries(audio_type,id){
       this.$router.push(
-         `/audio-series?audio_type=${audio_type}&Arera_id=${id}`
+         `${this.$route.path}/audio-series?audio_type=${audio_type}&Arera_id=${id}`
       )
     }
   }

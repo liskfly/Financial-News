@@ -3,7 +3,7 @@
     <div class="read-head" v-show="$route.meta.showfater">
       <img @click="show = true" src="../../assets/img/3H.png" />
       <wd-popup v-model="show" position="left">
-        <PopupLeft></PopupLeft>
+        <PopupLeft @show-left="isShow"></PopupLeft>
       </wd-popup>
       <div class="readType">
         <router-link tag="div" class="tab-bar-item" to="/read/">
@@ -16,7 +16,7 @@
           <span class="text">单行本</span>
         </router-link>
       </div>
-      <img src="../../assets/img/Dh.png" />
+      <img src="../../assets/img/Dh.png" @click="goDownloadList" />
     </div>
     <!-- <keep-alive> -->
     <router-view />
@@ -28,7 +28,7 @@
 <script>
 import PopupLeft from "@/views/ReadView/PopupLeft.vue";
 export default {
-  data() {
+  data () {
     return {
       show: false,
     };
@@ -36,6 +36,16 @@ export default {
   components: {
     PopupLeft,
   },
+  methods: {
+    goDownloadList () {
+      this.$router.push(
+        `/download-list`
+      )
+    },
+    isShow (m) {
+      this.show = m
+    }
+  }
 };
 </script>
 

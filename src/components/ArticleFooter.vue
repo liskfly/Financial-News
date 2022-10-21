@@ -42,10 +42,10 @@ export default {
   },
   methods: {
     goToComment() {
-      if (localStorage.token) {
+      if (sessionStorage.token) {
         this.showComment = true;
       } else {
-        this.$router.push("/home");
+        this.$router.push("/login");
       }
 
       // this.$router.push(`/comment?comment_id=${this.article.id}`);

@@ -16,7 +16,11 @@
               <div class="swipe-img">
                 <img v-lazy="item.cover_url" class="cover">
                 <div v-if="item.price" class="money">¥{{item.price}}</div>
-                <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
+                <a :href="item.package_path" target="tempiframe" @click.stop="saveBook(item)">
+                  <img v-if="item.is_jurisdiction && item.package_path !='https://files.cbnweek.com/'" class="download"
+                    src="../assets/img/X-.png">
+                </a>
+                <iframe name="tempiframe" style="display:none;"></iframe>
               </div>
               <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
               <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +
@@ -43,6 +47,32 @@ export default {
       this.$router.push(
         `/magazineData?&magazineData_type=${type}&magazineData_id=${id}`
       )
+    },
+    saveBook (item) {
+      let isHave = true
+
+
+
+      if (JSON.parse(localStorage.getItem("SAVE_SUBJECT"))) {
+        JSON.parse(localStorage.getItem("SAVE_SUBJECT")).map(({ id }) => {
+          if (id == item.id) {
+            isHave = false
+          }
+        })
+        if (isHave) {
+          let arr = JSON.parse(localStorage.getItem("SAVE_SUBJECT"))
+          arr.push(item)
+          arr = JSON.stringify(arr)
+          window.localStorage.setItem('SAVE_SUBJECT', arr)
+        }
+      } else {
+        let arr=[]
+        arr.push(item)
+        arr = JSON.stringify(arr)
+        window.localStorage.setItem('SAVE_SUBJECT', arr)
+      }
+
+      console.log(JSON.parse(localStorage.getItem("SAVE_SUBJECT")));
     }
   },
 };

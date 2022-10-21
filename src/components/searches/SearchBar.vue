@@ -80,7 +80,13 @@ export default {
       this.$router.push(`/audio-detail?detail_id=${a}`);
     },
     goBack() {
-      this.$router.go(-1);
+      if(this.$route.path=="/audio"){
+        let a=false
+        this.$emit('show-search',a)
+      }else{
+        this.$router.go(-1);
+      }
+      
     },
     deleteVal() {
       this.val = null;

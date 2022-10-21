@@ -71,7 +71,6 @@ export default {
     },
      scrollHieght(event){
       this.scroll=parseInt(event.target.scrollTop)
-      // console.log(this.scroll);
     }
   },
   components: { ArticleContent, ArticleHeader, ArticleFooter },

@@ -15,6 +15,7 @@
       />
     </div>
     <div class="detail" v-if="detail">
+      <van-loading color="#1989fa" v-show="pageLoading"/>
       <div class="detail-title">
         <p>{{ detail.title }}</p>
         <span v-if="detail.display_time">{{ showDate(detail.display_time) }}</span>
@@ -53,6 +54,7 @@ export default {
       detail: {},
       detailId: this.$route.query.detail_id,
       chooseAudio: true,
+       pageLoading:true,
     };
   },
   watch: {
@@ -61,6 +63,7 @@ export default {
     },
     detailId(a, b) {
       if (a != undefined && a != b && a !== "") {
+        this.pageLoading=true
         this.getAetail();
       }
     },
@@ -85,6 +88,7 @@ export default {
         .get(`http://api2021.cbnweek.com:80/v4/articles/${this.detailId}`)
         .then(({ data }) => {
           this.detail = data;
+          this.pageLoading=false
           this.$emit("sent-appId", {
             audioid: this.detailId,
             isPlay: this.chooseAudio,

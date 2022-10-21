@@ -54,7 +54,7 @@
           <div class="frequency">
             <div>{{ keyword[0].column.articles_count + "篇文章" }}</div>
             <div class="line">|</div>
-            <div>{{ "人关注" }}</div>
+            <div>{{ "666人关注" }}</div>
           </div>
         </div>
         <wd-button size="small" class="follow">关注</wd-button>
@@ -107,7 +107,7 @@ export default {
       this.keyword = {};
     },
     getKeywordArticle() {
-      // console.log();
+      // console.log(this.id,this.type);
       this.$axios
         .get(
           `http://api2021.cbnweek.com/v4/${this.type}/${this.id}/articles?page=1&per=20`

@@ -9,7 +9,6 @@
       />
       <span>全部评论</span>
     </div>
-
     <div class="comment">
       <div class="comment-box" v-for="c in commentArr" :key="c.id">
         <div class="comment-user">
@@ -65,12 +64,14 @@ export default {
       // this.$router.go(-1);
     },
     goCommentList() {
+      this.pageLoading=false
       this.$axios
         .get(
           `http://api2021.cbnweek.com:80/v4/articles/${this.id}/comments?order=newest&page=1&per=20`
         )
         .then(({ data }) => {
           this.commentArr = data;
+           
           // console.log(data);
         });
     },
@@ -89,7 +90,7 @@ export default {
           user: {
             id: 543988,
             login_name: "15721489113",
-            nickname: "用户昵称_543988",
+            nickname: "用户昵称_123456",
             avatar:
               "https://files.cbnweek.com/avatars/39E5BF66-FE73-4410-A680-18F88FD22358",
             is_vip: false,
