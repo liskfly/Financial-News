@@ -36,15 +36,30 @@
             >
           </div>
         </div>
-        <div class="normal" v-if="article.article_type !='magazine'">
+        <div class="normal" v-if="article.article_type != 'magazine'">
           <div class="dec" v-for="a in article.topics" :key="a.id">
             <span class="dec-color" @click="goKeyWordArticle(a.id)"
               >#{{ a.name }}</span
             >
           </div>
           <span class="summary">{{ article.summary }}</span>
-          <div v-html="article.content" class="text-item" v-if="article.probation || article.article_type == 'normal'||article.article_type == 'theme'"></div>
-          <div class="text-bottom" v-if="article.probation || article.article_type == 'normal'||article.article_type == 'theme'">
+          <div
+            v-html="article.content"
+            class="text-item"
+            v-if="
+              article.probation ||
+              article.article_type == 'normal' ||
+              article.article_type == 'theme'
+            "
+          ></div>
+          <div
+            class="text-bottom"
+            v-if="
+              article.probation ||
+              article.article_type == 'normal' ||
+              article.article_type == 'theme'
+            "
+          >
             <div class="text-ascription">
               <span>本文版权归本人开发者所有</span>
               <span>未经许可不得转载或翻译</span>
@@ -60,9 +75,21 @@
               <span>{{ article.favorite_times }}</span>
             </div>
           </div>
-          <div class="recommend" v-if="recommed && article.probation  || article.article_type == 'normal'||article.article_type == 'theme'" >
+          <div
+            class="recommend"
+            v-if="
+              (recommed && article.probation) ||
+              article.article_type == 'normal' ||
+              article.article_type == 'theme'
+            "
+          >
             <p class="recommend-text">相关文章</p>
-            <div class="recommend-box" v-for="(r,index) in recommed" :key="index" @click="goToArticle(r.id)">
+            <div
+              class="recommend-box"
+              v-for="(r, index) in recommed"
+              :key="index"
+              @click="goToArticle(r.article_type, r.id)"
+            >
               <div
                 class="recommed-img"
                 :style="{ backgroundImage: 'url(' + r.cover_url + ')' }"
@@ -72,7 +99,7 @@
           </div>
         </div>
 
-        <div class="magazine" v-if="article.article_type =='magazine'">
+        <div class="magazine" v-if="article.article_type == 'magazine'">
           <div class="dec">
             <div v-if="article.column">
               <span
@@ -82,7 +109,7 @@
               >
               <span
                 class="dec-color"
-                 @click="goColumnsArticle(article.column.parent_column.id)"
+                @click="goColumnsArticle(article.column.parent_column.id)"
                 >#{{ article.column.parent_column.name }}</span
               >
             </div>
@@ -96,7 +123,10 @@
             <p>评论</p>
             <div class="comment-box">
               <div class="comment-user">
-                <img src="https://files.cbnweek.com/a36d0b46bcc0f32dda03ec72c449d108_264x264" alt="tx" />
+                <img
+                  src="https://files.cbnweek.com/a36d0b46bcc0f32dda03ec72c449d108_264x264"
+                  alt="tx"
+                />
                 <div class="comment-user-dec">
                   <span class="comment-user-name">{{ c.user.nickname }}</span>
                   <span class="comment-time">{{
@@ -109,8 +139,7 @@
                 <span>{{ c.like_times }} <i></i></span>
               </div>
             </div>
-           
-          </div> 
+          </div>
           <p class="more">查看更多 >></p>
         </div>
       </div>
@@ -120,7 +149,7 @@
 <script>
 import { getAllDate } from "@/utils/GetDate";
 export default {
-  props: ["article",  "recommed"],
+  props: ["article", "recommed"],
   data() {
     return {
       // bestComment: {},
@@ -133,37 +162,29 @@ export default {
       return str;
     },
   },
-  updated() {
-    // if (this.article.editor_choice_comments.length > 0) {
-    //   this.getBestComment();
-    // }
-  },
   methods: {
-    // getBestComment() {
-    //   console.log(this.article.id);
-    //   this.$axios
-    //     .get(
-    //       `http://api2021.cbnweek.com:80/v4/articles/${this.article.id}/best_comments?order=newest&page=1&per=2`
-    //     )
-    //     .then(({ data }) => {
-    //       this.bestComment = data;
-    //       // console.log(this.bestComment);
-    //     });
-    // },
     commentTime(a) {
       return getAllDate(a);
     },
     goKeyWordArticle(id) {
-      this.$router.push(`/keyword-article?keyword_type=topics&keyword_id=${id}`);
+      this.$router.push(
+        `/keyword-article?keyword_type=topics&keyword_id=${id}`
+      );
     },
     goColumnsArticle(id) {
-      this.$router.push(`/keyword-article?keyword_type=columns&keyword_id=${id}`);
+      this.$router.push(
+        `/keyword-article?keyword_type=columns&keyword_id=${id}`
+      );
     },
-    goToArticle(b){
-       this.$router.push(
-        `/article?article_id=${b}`
+    goToArticle(a, b) {
+      if (a == "voice") {
+         this.$router.push(
+        `/audio-detail?detail_id=${b}`
       )
-    }
+      } else {
+        this.$router.push(`/article?article_id=${b}`);
+      }
+    },
   },
 };
 </script>
@@ -253,9 +274,9 @@ export default {
         }
       }
       .summary {
-          color: #888;
-          font-size: 12px;
-        }
+        color: #888;
+        font-size: 12px;
+      }
       .text-bottom {
         margin: 25px 0;
         .text-ascription {

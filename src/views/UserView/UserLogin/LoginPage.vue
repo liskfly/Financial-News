@@ -91,7 +91,6 @@ export default {
       let res;
       this.userInfo.forEach((item) => {
         console.log(item.psd == this.userPsd && item.user == this.userName);
-
         if (item.psd == this.userPsd && item.user == this.userName) {
           return (res = true);
         }
@@ -99,8 +98,8 @@ export default {
 
 
       if (res == true) {
-        this.$router.push(`/user?&Login_username=${this.userName}`);
-        // window.localStorage.setItem('token', JSON.stringify({ user: this.userName, psd: this.userPsd }))
+        this.$router.go(-1)
+        window.sessionStorage.setItem('token', JSON.stringify({ user: this.userName, psd: this.userPsd }))
         alert("成功");
       } else {
         alert("请注册账号");

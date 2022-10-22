@@ -17,6 +17,7 @@
         <span v-if="type == 'magazines'">{{' '}}</span>
       </div>
       <div class="Data-top">
+
         <div class="cover-shadow">
           <img class="cover" v-if="type == 'magazines'" :src="bookData[0].magazine_cover_url"
             style="box-shadow: 0px 3px 20px -1px;">
@@ -228,6 +229,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 
     .cover-shadow {
       position: relative;

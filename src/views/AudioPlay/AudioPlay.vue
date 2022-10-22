@@ -242,7 +242,7 @@ export default {
       return getTime(a);
     },
     chooseSpeed(a) {
-      console.log(a);
+      // console.log(a);
       this.showSpeed = !this.showSpeed;
       this.$emit("set-speed", a);
     },
