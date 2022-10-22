@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bookData" v-if="bookData[0] || bookData.articles">
+    <div class="bookData" v-if="bookData[0] || bookData.articles" @scroll="scrollHieght">
       <div class="Data-top-shadow">
         <img v-if="type == 'magazines'" :src="bookData[0].magazine_cover_url">
         <img v-if="type == 'subjects'" :src="bookData.cover_url">
@@ -8,23 +8,26 @@
         <div class="shadow"></div>
         <div class="white"></div>
       </div>
+      <div class="flex top" ref="top">
+        <img src="../assets/img/P4.png" class="goBack" @click="goBack">
+        <span v-if="type == 'magazines'" class="title">{{bookData[0].magazine_summary}}</span>
+        <span v-if="type == 'subjects'" class="title">{{bookData.name}}</span>
+        <span v-if="type == 'themes'" class="title">{{bookData.name}}</span>
+        <img src="../assets/img/35.png" class="share" v-if="type != 'magazines'">
+        <span v-if="type == 'magazines'">{{' '}}</span>
+      </div>
       <div class="Data-top">
-        <div class="flex top">
-          <img src="../assets/img/SJ.png" class="goBack" @click="goBack">
-          <span v-if="type == 'magazines'" class="title">{{bookData[0].magazine_summary}}</span>
-          <span v-if="type == 'subjects'" class="title">{{bookData.name}}</span>
-          <span v-if="type == 'themes'" class="title">{{bookData.name}}</span>
-          <img src="../assets/img/35.png" class="share" v-if="type != 'magazines'">
-          <span v-if="type == 'magazines'">{{' '}}</span>
+        <div class="cover-shadow">
+          <img class="cover" v-if="type == 'magazines'" :src="bookData[0].magazine_cover_url"
+            style="box-shadow: 0px 3px 20px -1px;">
+          <img class="cover" v-if="type == 'subjects'" :src="bookData.cover_url" style="box-shadow: 0px 3px 20px -1px;">
+          <img class="cover" v-if="type == 'themes'" :src="bookData.illustration"
+            style="box-shadow: 0px 3px 20px -1px;">
+            <img src="../assets/img/4w.png" class="shadow-cover">
         </div>
-        <img class="cover" v-if="type == 'magazines'" :src="bookData[0].magazine_cover_url"
-          style="box-shadow: 0px 3px 20px -1px;">
-        <span v-if="type == 'magazines'" class="title-two">{{bookData[0].magazine_summary}}</span>
 
-        <img class="cover" v-if="type == 'subjects'" :src="bookData.cover_url" style="box-shadow: 0px 3px 20px -1px;">
         <span class="title-two" v-if="type == 'subjects'">{{bookData.name}}</span>
-
-        <img class="cover" v-if="type == 'themes'" :src="bookData.illustration" style="box-shadow: 0px 3px 20px -1px;">
+        <span v-if="type == 'magazines'" class="title-two">{{bookData[0].magazine_summary}}</span>
         <span class="title-two" v-if="type == 'themes'">{{bookData.name}}</span>
 
         <div class="date" v-if="type == 'magazines'">
@@ -72,6 +75,7 @@ import Subjects from "../views/ReadView/MagazineDataType/typeSubjects.vue";
 import Themes from "../views/ReadView/MagazineDataType/typeThemes.vue";
 import { debounce } from "lodash-es";
 import { getDate } from "../assets/GetDate"
+// import { ref } from 'vue';
 export default {
   data () {
     return {
@@ -80,7 +84,8 @@ export default {
       bookData: {},
       suffix: 'articles',
       news: {},
-      time: 0
+      time: 0,
+      scroll: 0
     }
   },
   watch: {
@@ -130,7 +135,16 @@ export default {
             this.time = getDate(this.bookData.display_time)
           }
         });
+    },
+    scrollHieght (event) {
+      this.scroll = parseInt(event.target.scrollTop)
+      if (this.scroll >= 144) {
+        this.$refs.top.style.backgroundColor = 'white'
+      } else {
+        this.$refs.top.style.backgroundColor = ''
+      }
     }
+
   },
   components: {
     Magazines,
@@ -152,7 +166,7 @@ export default {
   background-color: grey;
 
   .Data-top-shadow {
-    height: 55vh;
+    height: 100vh;
     position: absolute;
     z-index: -1;
     background-size: 100%;
@@ -178,45 +192,58 @@ export default {
     }
   }
 
+  .top {
+    margin-top: 20px;
+    position: sticky;
+    padding: 10px 10px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 999;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .goBack {
+    width: 8px;
+    height: 16px;
+  }
+
+  .share {
+    width: 16px;
+    height: 16px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
   .Data-top {
     width: 90vw;
-    margin: 5vh 5vw 0;
+    margin: 5vh 7vw 0;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .top {
-      position: sticky;
-      padding: 10px 0;
-      top: 0;
-      left: 0;
-      width: 92vw;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .cover-shadow {
+      position: relative;
 
-    .flex {
-      display: flex;
-    }
-
-    .goBack {
-      width: 16px;
-      height: 16px;
-    }
-
-    .share {
-      width: 16px;
-      height: 16px;
-    }
-
-    .title {
-      color: #fff;
-      font-size: 20px;
+      .shadow-cover {
+        width: 30vw;
+        position: absolute;
+        height: 98%;
+        top: 0;
+        left: 0;
+      }
     }
 
     .cover {
-      margin-top: 2vh;
       width: 30vw;
+      position: relative;
     }
 
     .title-two {

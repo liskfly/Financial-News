@@ -21,6 +21,7 @@
                     src="../assets/img/X-.png">
                 </a>
                 <iframe name="tempiframe" style="display:none;"></iframe>
+                <img src="../assets/img/4w.png" class="shadow">
               </div>
               <span class="title">{{item.type == "Magazine" ? item.summary : item.name}}</span>
               <span class="time">{{item.display_time.match(/\d+/g)[0] + '.' +
@@ -131,6 +132,15 @@ export default {
           width: 28vw;
           margin-top: 2vh;
           position: relative;
+
+          .shadow {
+            width: 14vw;
+            height: 100%;
+            position: absolute;
+            border-radius: 5px 0 0 5px;
+            top: 0;
+            left: 0;
+          }
 
           .cover {
             width: 28vw;

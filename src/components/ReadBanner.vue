@@ -6,6 +6,7 @@
           <div class="swipe">
             <div class="swipe-img">
               <img @click="goMagazineData(item.type,item.id)" v-lazy="item.cover_url" class="cover" />
+              <img src="../assets/img/4w.png" class="shadow">
               <div v-if="item.price" class="money">¥{{item.price}}</div>
               <a :href="item.package_path">
                 <img v-if="item.is_jurisdiction" class="download" src="../assets/img/X-.png">
@@ -75,6 +76,15 @@ export default {
         height: 42vh;
         margin: auto;
         border-radius: 5px;
+      }
+
+      .shadow {
+        width: 30vw;
+        height: 42vh;
+        border-radius: 5px 0 0 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
       }
 
       .money {

@@ -100,7 +100,7 @@ export default {
 
       if (res == true) {
         this.$router.push(`/user?&Login_username=${this.userName}`);
-        window.localStorage.setItem('token', JSON.stringify({ user: this.userName, psd: this.userPsd }))
+        // window.localStorage.setItem('token', JSON.stringify({ user: this.userName, psd: this.userPsd }))
         alert("成功");
       } else {
         alert("请注册账号");

@@ -9,7 +9,7 @@
       :style="{ flexDirection: index % 2 != 0 ? 'row-reverse' : 'row' }"
     >
       <div
-        :style="{ flexDirection: index < 3 ? 'row' : 'row-reverse' }"
+        :style="{ flexDirection: index < 2 ? 'row' : 'row-reverse' }"
         class="flex"
       >
         <img :src="column_icon" class="img" />
