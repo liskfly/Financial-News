@@ -41,6 +41,7 @@ export default {
     return {
       id:this.commentId,
       commentArr: [],
+       userName:JSON.parse(sessionStorage.getItem("token")).user, 
       str: "",
     };
   },
@@ -56,6 +57,9 @@ export default {
  },
   created() {
     this.goCommentList();
+  },
+  activated(){
+    this.userName=JSON.parse(sessionStorage.getItem("token")).user
   },
   methods: {
     goBack() {
@@ -90,7 +94,7 @@ export default {
           user: {
             id: 543988,
             login_name: "15721489113",
-            nickname: "用户昵称_123456",
+            nickname:  '用户昵称__'+this.userName,
             avatar:
               "https://files.cbnweek.com/avatars/39E5BF66-FE73-4410-A680-18F88FD22358",
             is_vip: false,
