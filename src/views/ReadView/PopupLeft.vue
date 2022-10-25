@@ -125,7 +125,6 @@ export default {
       box-sizing: border-box;
       width: 60px;
       height: 25px;
-      padding: 4px 16px;
       border-radius: 50px;
       border: 1px solid #0191ff;
       margin-right: 11px;

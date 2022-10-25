@@ -1,37 +1,20 @@
 <template>
   <div id="app">
     <keep-alive>
-      <router-view
-        @sent-appId="sentAudioId"
-        @sent-play="sentPlay"
-        :playAudio="playAudio"
-      />
+      <router-view @sent-appId="sentAudioId" @sent-play="sentPlay" :playAudio="playAudio" />
     </keep-alive>
     <div class="audio-box" v-show="audioSrc" @click="goToAudioPlay">
-      <audio :src="audioSrc" ref="audio"  @timeupdate="getCurr" autoplay></audio>
+      <audio :src="audioSrc" ref="audio" @timeupdate="getCurr" autoplay></audio>
       <img src="@/assets/img/Zg.png" alt="sh" @click.stop="clearAudio" />
       <p v-for="a in audioCon" :key="a.title">{{ a.title }}</p>
       <i></i>
-      <div
-        class="control"
-        :class="{ showbox: playAudio }"
-        @click.stop="stopAudio"
-      ></div>
+      <div class="control" :class="{ showbox: playAudio }" @click.stop="stopAudio"></div>
     </div>
 
     <van-popup v-model="showPlay" position="bottom" :style="{ height: '100%' }">
-      <AudioPlay
-        @sent-appId="sentAudioId"
-        @sent-play="sentPlay"
-        @set-audioTime="setAudioTime"
-        @hide-play="hidePlay"
-        @set-speed="setSpeed"
-        :playAudio="playAudio"
-        :curr="curr"
-        :speed="speed"
-        :audioCon="audioCon"
-        :audioArr="audioArr"
-      />
+      <AudioPlay @sent-appId="sentAudioId" @sent-play="sentPlay" @set-audioTime="setAudioTime" @hide-play="hidePlay"
+        @set-speed="setSpeed" :playAudio="playAudio" :curr="curr" :speed="speed" :audioCon="audioCon"
+        :audioArr="audioArr" />
     </van-popup>
     <div class="tab-bar" v-show="$route.meta.showfater">
       <router-link tag="div" class="tab-bar-item" to="/home">
@@ -55,8 +38,9 @@
 </template>
 <script>
 import AudioPlay from "./views/AudioPlay/AudioPlay.vue";
+import { debounce } from "lodash-es";
 export default {
-  data() {
+  data () {
     return {
       audioId: "",
       audioSrc: "",
@@ -65,21 +49,21 @@ export default {
       playAudio: false,
       showPlay: false,
       curr: 0,
-      speed:1,
+      speed: 1,
       audioType: 1,
       audioArr: [],
       audioCon: [],
     };
   },
   watch: {
-    audioType(a, b) {
+    audioType (a, b) {
       // console.log(a, b);
       if (a != b) {
         this.isData = false;
         this.getAudioData();
       }
     },
-    audioId(a, b) {
+    audioId (a, b) {
       if (a != b && a) {
         if (this.isData) {
           // console.log(this.isData);
@@ -87,7 +71,7 @@ export default {
         }
       }
     },
-    playAudio(a) {
+    playAudio (a) {
       if (this.duration != 0) {
         if (a == true && a) {
           // this.audioSrc = this.audioCon[0].audio_url;
@@ -102,23 +86,24 @@ export default {
       }
     },
   },
-  created() {
+  created () {
+    this.getAudioData = debounce(this.getAudioData);
     this.getAudioData();
   },
   methods: {
-    sentAudioId({ audioid, isPlay, audioType }) {
+    sentAudioId ({ audioid, isPlay, audioType }) {
       this.audioId = audioid;
       this.playAudio = isPlay;
       this.audioType = audioType;
     },
-    sentPlay({ audioid, isPlay }) {
+    sentPlay ({ audioid, isPlay }) {
       this.audioId = audioid;
       this.playAudio = isPlay;
     },
-    hidePlay(a) {
+    hidePlay (a) {
       this.showPlay = a;
     },
-    getAudioData() {
+    getAudioData () {
       let audioArrDataStr = [];
       localStorage.setItem("AUDIO_DTATA_PROGRAM", audioArrDataStr);
       this.$axios
@@ -136,8 +121,8 @@ export default {
           }
         });
     },
-    getNewAudio() {
-      this.speed=1
+    getNewAudio () {
+      this.speed = 1
       this.audioCon = this.audioArr[0].articles.filter((t) => {
         return t.id == this.audioId;
       });
@@ -148,34 +133,34 @@ export default {
         if (this.playAudio == true) {
           setTimeout(() => {
             this.$refs.audio.autoplay = "autoplay";
-             this.$refs.audio.playbackRate=this.speed
+            this.$refs.audio.playbackRate = this.speed
           }, 500);
         }
       });
     },
-    clearAudio() {
+    clearAudio () {
       this.audioSrc = "";
       this.playAudio = false;
     },
-    stopAudio() {
+    stopAudio () {
       this.playAudio = !this.playAudio;
     },
-    goToAudioPlay() {
-       this.showPlay=true
+    goToAudioPlay () {
+      this.showPlay = true
       // this.$router.push(`/audio-play`);
     },
-    getCurr() {
+    getCurr () {
       this.curr = parseInt(this.$refs.audio.currentTime);
     },
-    setAudioTime(a) {
+    setAudioTime (a) {
       this.$refs.audio.currentTime = a;
     },
-    setSpeed(a){
-      this.speed=a
-       this.$refs.audio.playbackRate=a
+    setSpeed (a) {
+      this.speed = a
+      this.$refs.audio.playbackRate = a
     }
   },
-  components:{
+  components: {
     AudioPlay
   }
 };
